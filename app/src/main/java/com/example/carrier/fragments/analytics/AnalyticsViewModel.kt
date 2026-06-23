@@ -28,7 +28,6 @@ class AnalyticsViewModel @Inject constructor(
 
     val uiState =
         combine(trips, period) { trips, periodType ->
-
             AnalyticsUiState(
                 summary = getSummary(trips),
                 categories = getCategories(trips),

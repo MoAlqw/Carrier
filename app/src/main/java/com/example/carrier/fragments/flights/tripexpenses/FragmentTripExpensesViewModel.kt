@@ -3,6 +3,7 @@ package com.example.carrier.fragments.flights.tripexpenses
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.carrier.model.ExpensesTripUi
+import com.example.carrier.model.toExpensesTripUi
 import com.example.domain.usecase.GetTripWithExpensesByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,12 +27,7 @@ class FragmentTripExpensesViewModel @Inject constructor(
             .filterNotNull()
             .flatMapLatest { id ->
                 getTripWithExpensesByIdUseCase(id).map {
-                    ExpensesTripUi(
-                        id = it.trip.id,
-                        status = it.trip.status,
-                        amount = it.trip.amount,
-                        expenses = it.expenses
-                    )
+                    it.toExpensesTripUi()
                 }
             }
             .stateIn(

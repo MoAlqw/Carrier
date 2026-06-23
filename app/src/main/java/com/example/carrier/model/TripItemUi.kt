@@ -1,6 +1,5 @@
 package com.example.carrier.model
 
-import com.example.domain.model.Expense
 import com.example.domain.model.TripStatus
 import com.example.domain.model.TripWithExpensesAndVehicle
 import java.time.Instant
@@ -11,12 +10,10 @@ data class TripItemUi(
     val client: String,
     val date: Instant,
     val km: Long,
-    // VehicleUi
-    val vehiclePlate: String,
+    val vehicle: VehicleItemUi,
     val amount: Long,
     val status: TripStatus,
-    // ExpenseUi
-    val expenses: List<Expense>
+    val expenses: List<ExpenseItemUi>
 ) {
 
     val totalExpenses: Long
@@ -41,8 +38,8 @@ fun TripWithExpensesAndVehicle.toTripItemUi() = TripItemUi(
     client = trip.client,
     date = trip.date,
     km = trip.km,
-    vehiclePlate = "${vehicle.brand} ${vehicle.model} · ${vehicle.plate}",
+    vehicle = vehicle.toVehicleUi(),
     amount = trip.amount,
     status = trip.status,
-    expenses = expenses
+    expenses = expenses.map { it.toExpenseItemUi() }
 )

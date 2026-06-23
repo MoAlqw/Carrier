@@ -14,7 +14,7 @@ import com.example.carrier.fragments.BaseFragment
 import com.example.carrier.fragments.NavKeys
 import com.example.carrier.model.TripItemUi
 import com.example.domain.model.TripStatus
-import com.example.domain.utils.DateFormatter
+import com.example.carrier.utils.DateFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,7 +51,12 @@ class TripDetailsFragment : BaseFragment<FragmentTripBinding>(
         binding.tvRoute.text = trip.route
         binding.tvDate.text = DateFormatter.format(trip.date.toEpochMilli())
         binding.tvClient.text = trip.client
-        binding.tvVehicle.text = trip.vehiclePlate
+        binding.tvVehicle.text = getString(
+            R.string.vehicle_plate_string,
+                trip.vehicle.brand,
+                trip.vehicle.model,
+                trip.vehicle.plate
+            )
         binding.tvKm.text = getString(R.string.total_mileage, trip.km)
         binding.tvRevenue.text = getString(R.string.full_price, trip.amount)
         binding.tvExpensesTotal.text = getString(R.string.full_cost, trip.totalExpenses)

@@ -10,7 +10,7 @@ import com.example.carrier.R
 import com.example.carrier.databinding.ItemTripBinding
 import com.example.carrier.model.TripItemUi
 import com.example.domain.model.TripStatus
-import com.example.domain.utils.DateFormatter
+import com.example.carrier.utils.DateFormatter
 
 class TripsAdapter(
     private val onTripClick: (TripItemUi) -> Unit
@@ -38,7 +38,12 @@ class TripsAdapter(
                 trip.id,
                 DateFormatter.format(trip.date.toEpochMilli())
             )
-            binding.tvPlate.text = trip.vehiclePlate
+            binding.tvPlate.text = binding.root.context.getString(
+                R.string.vehicle_plate_string,
+                trip.vehicle.brand,
+                trip.vehicle.model,
+                trip.vehicle.plate
+            )
             binding.tvAmount.text = binding.root.context.getString(
                 R.string.full_price,
                 trip.amount

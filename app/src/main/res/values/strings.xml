@@ -43,6 +43,7 @@
     <string name="fuel">Расход топлива</string>
     <string name="cancel">Отмена</string>
     <string name="vehicle_brand_and_model">%1$s %2$s</string>
+    <string name="vehicle_plate_string">%1$s %2$s · %3$s</string>
     <string name="fuel_100">%1$s · %2$d л/100 км</string>
     <string name="number_of_flight">Номер рейса</string>
     <string name="date_of_flight">Дата рейса</string>

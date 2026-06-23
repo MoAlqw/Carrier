@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carrier.R
 import com.example.carrier.databinding.ItemVehicleBinding
-import com.example.domain.model.Vehicle
+import com.example.carrier.model.VehicleItemUi
 import kotlin.math.roundToLong
 
 class VehicleAdapter :
-    ListAdapter<Vehicle, VehicleAdapter.VehicleViewHolder>(DiffCallback) {
+    ListAdapter<VehicleItemUi, VehicleAdapter.VehicleViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -27,7 +27,7 @@ class VehicleAdapter :
         private val binding: ItemVehicleBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Vehicle) {
+        fun bind(item: VehicleItemUi) {
             binding.tvBrandWithModel.text =
                 binding.root.context.getString(
                     R.string.vehicle_brand_and_model,
@@ -44,11 +44,11 @@ class VehicleAdapter :
     }
 
     companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<Vehicle>() {
-            override fun areItemsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
-                return oldItem.id == newItem.id
+        private val DiffCallback = object : DiffUtil.ItemCallback<VehicleItemUi>() {
+            override fun areItemsTheSame(oldItem: VehicleItemUi, newItem: VehicleItemUi): Boolean {
+                return oldItem.plate == newItem.plate
             }
-            override fun areContentsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
+            override fun areContentsTheSame(oldItem: VehicleItemUi, newItem: VehicleItemUi): Boolean {
                 return oldItem == newItem
             }
         }

@@ -1,4 +1,4 @@
-package com.example.domain.utils
+package com.example.carrier.utils
 
 import java.time.Instant
 import java.time.ZoneId

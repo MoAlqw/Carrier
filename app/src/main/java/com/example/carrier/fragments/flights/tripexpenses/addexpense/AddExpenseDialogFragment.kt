@@ -14,7 +14,7 @@ import com.example.carrier.databinding.FragmentAddExpenseDialogBinding
 import com.example.carrier.extension.toDisplayName
 import com.example.carrier.fragments.NavKeys
 import com.example.domain.model.ExpenseCategory
-import com.example.domain.utils.DateFormatter
+import com.example.carrier.utils.DateFormatter
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint

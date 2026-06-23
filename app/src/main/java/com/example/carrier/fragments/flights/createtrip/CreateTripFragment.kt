@@ -13,7 +13,7 @@ import com.example.carrier.R
 import com.example.carrier.databinding.FragmentTripFormBinding
 import com.example.carrier.fragments.BaseFragment
 import com.example.carrier.model.CreateTripFormState
-import com.example.domain.utils.DateFormatter
+import com.example.carrier.utils.DateFormatter
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

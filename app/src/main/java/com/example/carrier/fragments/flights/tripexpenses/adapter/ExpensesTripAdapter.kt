@@ -9,11 +9,10 @@ import com.example.carrier.R
 import com.example.carrier.databinding.ItemExpenseBinding
 import com.example.carrier.extension.toDisplayImageAndBackground
 import com.example.carrier.extension.toDisplayName
-import com.example.domain.model.Expense
-import com.example.domain.utils.DateFormatter
+import com.example.carrier.model.ExpenseItemUi
 
 class ExpensesTripAdapter:
-    ListAdapter<Expense, ExpensesTripAdapter.ExpenseTripViewHolder>(DiffCallback) {
+    ListAdapter<ExpenseItemUi, ExpensesTripAdapter.ExpenseTripViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseTripViewHolder {
         val binding = ItemExpenseBinding.inflate(
@@ -30,14 +29,14 @@ class ExpensesTripAdapter:
         private val binding: ItemExpenseBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(expense: Expense) {
+        fun bind(expense: ExpenseItemUi) {
             binding.tvAmount.text = binding.root.context.getString(
                 R.string.full_cost,
                 expense.amount
             )
             binding.tvCategory.text = expense.category.toDisplayName(binding.root.context)
             binding.tvNote.text = expense.name
-            binding.tvDate.text = DateFormatter.format(expense.date.toEpochMilli())
+            binding.tvDate.text = expense.date
 
             val (image, background) = expense.category.toDisplayImageAndBackground(binding.root.context)
             binding.layoutIconBg.background = background
@@ -45,11 +44,11 @@ class ExpensesTripAdapter:
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Expense>() {
-        override fun areItemsTheSame(oldItem: Expense, newItem: Expense) =
-            oldItem.id == newItem.id
+    companion object DiffCallback : DiffUtil.ItemCallback<ExpenseItemUi>() {
+        override fun areItemsTheSame(oldItem: ExpenseItemUi, newItem: ExpenseItemUi) =
+            oldItem.date == newItem.date
 
-        override fun areContentsTheSame(oldItem: Expense, newItem: Expense) =
+        override fun areContentsTheSame(oldItem: ExpenseItemUi, newItem: ExpenseItemUi) =
             oldItem == newItem
     }
 }
