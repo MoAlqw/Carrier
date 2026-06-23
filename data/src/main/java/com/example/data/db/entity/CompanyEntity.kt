@@ -7,14 +7,13 @@ import com.example.domain.model.Company
 @Entity(tableName = "company")
 data class CompanyEntity(
 
-    @PrimaryKey val id: Int = 1,
+    @PrimaryKey val id: Int = 0,
 
     val name: String,
     val binIin: String,
     val iik: String,
     val bank: String,
     val bik: String,
-    val kbe: String,
     val phone: String,
     val email: String,
     val address: String
@@ -24,10 +23,21 @@ fun CompanyEntity.toCompany() = Company(
     id = id,
     name = name,
     binIin = binIin,
-    iik = iik,
+    iic = iik,
     bank = bank,
-    bik = bik,
-    kbe = kbe,
+    bic = bik,
+    phone = phone,
+    email = email,
+    address = address
+)
+
+fun Company.toCompanyEntity() = CompanyEntity(
+    id = id,
+    name = name,
+    binIin = binIin,
+    iik = iic,
+    bank = bank,
+    bik = bic,
     phone = phone,
     email = email,
     address = address

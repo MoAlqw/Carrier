@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CompanyDao {
 
-    @Query("SELECT * FROM company WHERE id = 1")
+    @Query("SELECT * FROM company WHERE id = 0")
     fun observeCompany(): Flow<CompanyEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
