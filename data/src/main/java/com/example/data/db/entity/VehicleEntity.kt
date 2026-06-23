@@ -23,3 +23,11 @@ fun VehicleEntity.toVehicle() = Vehicle(
     plate = plate,
     fuelConsumption = fuelConsumption
 )
+
+fun Vehicle.toVehicleEntity() = VehicleEntity(
+    id = id,
+    brand = brand,
+    model = model,
+    plate = plate,
+    fuelConsumption = fuelConsumption
+)

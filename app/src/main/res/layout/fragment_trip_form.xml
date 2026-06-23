@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurfaceVariant"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="0.5dp"
+            app:strokeColor="?attr/colorOutline">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/basic_information"
+                    android:textAllCaps="true"
+                    android:textSize="11sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="14dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilDate"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date_of_flight"
+                    android:layout_marginBottom="14dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:inputType="none"
+                        android:importantForAutofill="no" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilRoute"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:hint="@string/route"
+                    app:helperText="Например: Алматы → Астана"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etRoute"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences"
+                        android:maxLength="100"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilClient"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/client"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etClient"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLength="100"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="0.5dp"
+            app:strokeColor="?attr/colorOutline">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transport"
+                    android:textAllCaps="true"
+                    android:textSize="11sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="14dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilVehicle"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:hint="@string/vehicle"
+                    app:errorEnabled="true">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/actvVehicle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:focusable="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="0.5dp"
+            app:strokeColor="?attr/colorOutline">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/finance"
+                    android:textAllCaps="true"
+                    android:textSize="11sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="14dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAmount"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:hint="Сумма перевозки без НДС"
+                    app:suffixText="₸"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="0.5dp"
+            app:strokeColor="?attr/colorOutline">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fuel_"
+                    android:textSize="11sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="14dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilKm"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:hint="@string/mileage"
+                    app:suffixText="км"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etKm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:maxLength="7"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilFuelPrice"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:hint="@string/fuel_price"
+                    app:suffixText="₸/литр"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFuelPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:maxLength="6"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilFuelConsumption"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:hint="@string/consumption_per_100"
+                    app:suffixText="л"
+                    app:helperText="Подтягивается из автомобиля"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFuelConsumption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionDone" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="14dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/fuel_" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/consumption_per_100"
+                        android:textSize="13sp"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/tvEstimatedFuelCost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/full_price"
+                        android:textSize="14sp"
+                        android:textColor="?attr/colorOnSurface" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="0.5dp"
+            app:strokeColor="?attr/colorOutline">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/planned_outcome"
+                    android:textAllCaps="true"
+                    android:textSize="11sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="12dp" />
+
+
+                <LinearLayout
+                    android:id="@+id/llRevenue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/revenue"/>
+
+
+                    <TextView
+                        android:id="@+id/tvRevenueOfUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/full_price" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llFuel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/fuel_"/>
+
+
+                    <TextView
+                        android:id="@+id/tvFuelOfUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/full_cost"
+                        android:textColor="@color/red"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="?attr/colorOutline"
+                    android:layout_marginVertical="8dp" />
+
+                <LinearLayout
+                    android:id="@+id/llTax"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/tax"/>
+
+
+                    <TextView
+                        android:id="@+id/tvTaxOfUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/full_cost"
+                        android:textColor="@color/red"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="?attr/colorOutline"
+                    android:layout_marginVertical="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/net_profit"
+                        android:textSize="14sp"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:id="@+id/tvNetProfit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/full_price"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/profitability"
+                        android:textSize="13sp"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/tvProfitability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartTrip"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/start_the_flight"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

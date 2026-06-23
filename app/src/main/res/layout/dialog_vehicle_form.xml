@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tvDialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/new_vehicle"
+        android:textSize="18sp"
+        android:textColor="?attr/colorOnSurface"
+        android:layout_marginBottom="20dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilBrand"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:hint="@string/brand"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etBrand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:maxLength="30"
+            android:imeOptions="actionNext" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilModel"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:hint="@string/model"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etModel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:maxLength="30"
+            android:imeOptions="actionNext" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPlate"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:hint="@string/plate"
+        app:helperText="Например: 784 HHH 01"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPlate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapCharacters"
+            android:maxLength="15"
+            android:imeOptions="actionNext" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilFuelConsumption"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:hint="@string/fuel"
+        app:suffixText="л/100 км"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFuelConsumption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLength="5"
+            android:imeOptions="actionDone" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/cancel"
+            android:minWidth="88dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/save"
+            android:minWidth="88dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

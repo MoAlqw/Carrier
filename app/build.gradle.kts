@@ -31,11 +31,24 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":data"))
+
     implementation(libs.hilt.android)
+    implementation(libs.androidx.coordinatorlayout)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
     ksp(libs.hilt.compiler)
+
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

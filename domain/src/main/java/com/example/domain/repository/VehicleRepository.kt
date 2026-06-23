@@ -4,5 +4,7 @@ import com.example.domain.model.Vehicle
 import kotlinx.coroutines.flow.Flow
 
 interface VehicleRepository {
-    suspend fun getVehicles(): Flow<List<Vehicle>>
+    fun getVehicles(): Flow<List<Vehicle>>
+    suspend fun getVehicleById(id: Long): Vehicle?
+    suspend fun createVehicle(vehicle: Vehicle)
 }

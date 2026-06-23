@@ -4,5 +4,6 @@ import com.example.domain.model.Company
 import kotlinx.coroutines.flow.Flow
 
 interface CompanyRepository {
-    suspend fun getCompany(): Flow<Company?>
+    fun getCompany(): Flow<Company?>
+    suspend fun createCompany(company: Company)
 }

@@ -1,10 +1,12 @@
 package com.example.data.di
 
 import com.example.data.repository.CompanyRepositoryImpl
-import com.example.data.repository.DriverRepositoryImpl
+import com.example.data.repository.ExpenseRepositoryImpl
+import com.example.data.repository.TripRepositoryImpl
 import com.example.data.repository.VehicleRepositoryImpl
 import com.example.domain.repository.CompanyRepository
-import com.example.domain.repository.DriverRepository
+import com.example.domain.repository.ExpenseRepository
+import com.example.domain.repository.TripRepository
 import com.example.domain.repository.VehicleRepository
 import dagger.Binds
 import dagger.Module
@@ -26,7 +28,12 @@ abstract class RepositoryModule {
     ): CompanyRepository
 
     @Binds
-    abstract fun bindDriverRepository(
-        impl: DriverRepositoryImpl
-    ): DriverRepository
+    abstract fun bindTripRepository(
+        impl: TripRepositoryImpl
+    ): TripRepository
+
+    @Binds
+    abstract fun bindExpenseRepository(
+        impl: ExpenseRepositoryImpl
+    ): ExpenseRepository
 }

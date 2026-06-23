@@ -1,0 +1,16 @@
+package com.example.domain.repository
+
+import com.example.domain.model.Trip
+import com.example.domain.model.TripWithExpenses
+import com.example.domain.model.TripWithExpensesAndVehicle
+import kotlinx.coroutines.flow.Flow
+
+interface TripRepository {
+    fun getTripById(id: Long): Flow<Trip?>
+    suspend fun createTrip(trip: Trip)
+    suspend fun updateTrip(trip: Trip)
+    fun getTripsWithExpensesAndVehicle(): Flow<List<TripWithExpensesAndVehicle>>
+    fun getTripsWithExpenses(): Flow<List<TripWithExpenses>>
+    fun getTripWithExpensesById(id: Long): Flow<TripWithExpenses>
+    fun getClosedTripsWithExpenses(): Flow<List<TripWithExpenses>>
+}

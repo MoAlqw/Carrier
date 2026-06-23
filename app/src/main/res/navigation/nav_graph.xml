@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/flightsFragment">
+
+    <fragment
+        android:id="@+id/flightsFragment"
+        android:name="com.example.carrier.fragments.flights.trips.FlightsFragment"
+        android:label="@string/flights" >
+        <action
+            android:id="@+id/action_flightsFragment_to_createTripFragment"
+            app:destination="@id/createTripFragment" />
+        <action
+            android:id="@+id/action_flightsFragment_to_tripDetailsFragment"
+            app:destination="@id/tripDetailsFragment">
+            <argument
+                android:name="tripId"
+                app:argType="long" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/archiveFragment"
+        android:name="com.example.carrier.fragments.archive.ArchiveFragment"
+        android:label="@string/archive" >
+        <action
+            android:id="@+id/action_archiveFragment_to_tripDetailsFragment"
+            app:destination="@id/tripDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/analyticsFragment"
+        android:name="com.example.carrier.fragments.analytics.AnalyticsFragment"
+        android:label="@string/analytics" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.carrier.fragments.profile.ProfileFragment"
+        android:label="@string/profile" />
+
+    <dialog
+        android:id="@+id/addVehicleDialogFragment"
+        android:name="com.example.carrier.fragments.profile.addvehicle.AddVehicleDialogFragment"
+        android:label="@string/new_vehicle"/>
+
+    <fragment
+        android:id="@+id/createTripFragment"
+        android:name="com.example.carrier.fragments.flights.createtrip.CreateTripFragment"
+        android:label="@string/create_trip" />
+
+    <fragment
+        android:id="@+id/tripDetailsFragment"
+        android:name="com.example.carrier.fragments.flights.trip.TripDetailsFragment"
+        android:label="Рейс #{tripId}">
+        <argument
+            android:name="tripId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_tripDetailsFragment_to_tripExpensesFragment"
+            app:destination="@id/tripExpensesFragment">
+            <argument
+                android:name="tripId"
+                app:argType="long" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/tripExpensesFragment"
+        android:name="com.example.carrier.fragments.flights.tripexpenses.FragmentTripExpenses"
+        android:label="Расходы рейса #{tripId}">
+        <argument
+            android:name="tripId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_tripExpensesFragment_to_addExpenseDialogFragment"
+            app:destination="@id/addExpenseDialogFragment">
+            <argument
+                android:name="tripId"
+                app:argType="long" />
+        </action>
+    </fragment>
+
+    <dialog
+        android:id="@+id/addExpenseDialogFragment"
+        android:name="com.example.carrier.fragments.flights.tripexpenses.addexpense.AddExpenseDialogFragment">
+        <argument
+            android:name="tripId"
+            app:argType="long" />
+    </dialog>
+
+</navigation>

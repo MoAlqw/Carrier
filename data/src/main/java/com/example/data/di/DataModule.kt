@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.example.data.db.AppDatabase
 import com.example.data.db.dao.CompanyDao
-import com.example.data.db.dao.DriverDao
 import com.example.data.db.dao.ExpenseDao
 import com.example.data.db.dao.TripDao
 import com.example.data.db.dao.VehicleDao
@@ -45,13 +44,6 @@ object DataModule {
         database: AppDatabase
     ): CompanyDao {
         return database.companyDao()
-    }
-
-    @Provides
-    fun provideBaselineDao(
-        database: AppDatabase
-    ): DriverDao {
-        return database.driverDao()
     }
 
     @Provides
