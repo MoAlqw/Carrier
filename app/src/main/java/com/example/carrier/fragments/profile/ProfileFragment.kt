@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.carrier.R
 import com.example.carrier.databinding.FragmentProfileBinding
 import com.example.carrier.fragments.BaseFragment
+import com.example.carrier.fragments.profile.adapter.VehicleAdapter
 import com.example.carrier.model.ProfileUiState
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout

@@ -1,4 +1,4 @@
-package com.example.carrier.fragments.profile
+package com.example.carrier.fragments.profile.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

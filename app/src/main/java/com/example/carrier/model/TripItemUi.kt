@@ -11,9 +11,11 @@ data class TripItemUi(
     val client: String,
     val date: Instant,
     val km: Long,
+    // VehicleUi
     val vehiclePlate: String,
     val amount: Long,
     val status: TripStatus,
+    // ExpenseUi
     val expenses: List<Expense>
 ) {
 
