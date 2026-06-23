@@ -1,20 +1,15 @@
 package com.example.carrier.fragments.profile
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.carrier.model.ProfileUiState
 import com.example.domain.model.Company
-import com.example.domain.model.Vehicle
 import com.example.domain.usecase.CreateCompanyUseCase
-import com.example.domain.usecase.CreateVehicleUseCase
 import com.example.domain.usecase.GetCompanyUseCase
 import com.example.domain.usecase.GetVehiclesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn

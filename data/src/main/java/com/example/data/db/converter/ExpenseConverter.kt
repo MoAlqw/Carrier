@@ -1,7 +1,6 @@
 package com.example.data.db.converter
 
 import androidx.room.TypeConverter
-import com.example.domain.model.Expense
 import com.example.domain.model.ExpenseCategory
 
 class ExpenseConverter {

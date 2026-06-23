@@ -8,8 +8,6 @@ import androidx.room.Update
 import com.example.data.db.entity.TripEntity
 import com.example.data.db.entity.TripWithExpensesAndVehicleEntity
 import com.example.data.db.entity.TripWithExpensesEntity
-import com.example.domain.model.TripWithExpenses
-import com.example.domain.model.TripWithExpensesAndVehicle
 import kotlinx.coroutines.flow.Flow
 
 @Dao

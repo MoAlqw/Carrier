@@ -11,6 +11,4 @@ data class AnalyticsUiState(
 ) {
     val tax: Long
         get() = (summary.profit * 0.12).toLong()
-
-    val netProfit = summary.profit - tax
 }
