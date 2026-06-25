@@ -3,6 +3,7 @@ package com.example.carrier.fragments.profile
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,7 +14,6 @@ import com.example.carrier.databinding.FragmentProfileBinding
 import com.example.carrier.fragments.BaseFragment
 import com.example.carrier.fragments.profile.adapter.VehicleAdapter
 import com.example.carrier.model.ProfileUiState
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,20 +28,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
                     setUi(it)
                 }
             }
-        }
-        binding.btnSave.setOnClickListener {
-            createCompany()
-        }
-
-        binding.btnAddVehicle.setOnClickListener {
-            findNavController().navigate(R.id.addVehicleDialogFragment)
         }
     }
 
@@ -57,6 +49,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
                 binding.llCreateCompany.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.GONE
                 binding.svCompanyInfo.visibility = View.GONE
+                binding.btnSave.setOnClickListener {
+                    createCompany()
+                }
+                setupListenersForCreateCompany()
             }
 
             is ProfileUiState.Content -> {
@@ -83,7 +79,37 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
                 binding.tvPhoneOfUser.text = item.company.phone
                 binding.tvEmailOfUser.text = item.company.email
                 binding.tvAddressOfUser.text = item.company.address
+                binding.btnAddVehicle.setOnClickListener {
+                    findNavController().navigate(R.id.addVehicleDialogFragment)
+                }
             }
+        }
+    }
+
+    private fun setupListenersForCreateCompany() {
+        binding.etName.doAfterTextChanged {
+            viewModel.onNameChanged(it.toString())
+        }
+        binding.etBinIin.doAfterTextChanged {
+            viewModel.onBinIinChanged(it.toString())
+        }
+        binding.etIic.doAfterTextChanged {
+            viewModel.onIicChanged(it.toString())
+        }
+        binding.etBank.doAfterTextChanged {
+            viewModel.onBankChanged(it.toString())
+        }
+        binding.etBic.doAfterTextChanged {
+            viewModel.onBicChanged(it.toString())
+        }
+        binding.etPhone.doAfterTextChanged {
+            viewModel.onPhoneChanged(it.toString())
+        }
+        binding.etEmail.doAfterTextChanged {
+            viewModel.onEmailChanged(it.toString())
+        }
+        binding.etAddress.doAfterTextChanged {
+            viewModel.onAddressChanged(it.toString())
         }
     }
 
@@ -94,24 +120,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
 
     private fun createCompany() {
         if (validateForm()) {
-            viewModel.createCompany(
-                name = binding.etName.text.toString(),
-                binIin = binding.etBinIin.text.toString(),
-                iic = binding.etIic.text.toString(),
-                bank = binding.etBank.text.toString(),
-                bic = binding.etBic.text.toString(),
-                phone = binding.etPhone.text.toString(),
-                email = binding.etEmail.text.toString(),
-                address = binding.etAddress.text.toString(),
-            )
+            viewModel.createCompany()
         }
     }
 
     private fun validateForm(): Boolean {
         var valid = true
 
-        fun checkBlank(til: TextInputLayout, et: TextInputEditText, errorRes: Int) {
-            if (et.text.isNullOrBlank()) {
+        fun checkBlank(til: TextInputLayout, text: String, errorRes: Int) {
+            if (text.isBlank()) {
                 til.error = getString(errorRes)
                 valid = false
             } else {
@@ -121,12 +138,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
 
         fun checkPattern(
             til: TextInputLayout,
-            et: TextInputEditText,
+            text: String,
             pattern: Regex,
             blankRes: Int,
             formatRes: Int
         ) {
-            val text = et.text.toString()
             when {
                 text.isBlank() -> {
                     til.error = getString(blankRes); valid = false
@@ -140,44 +156,44 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
             }
         }
 
-        checkBlank(binding.tilName, binding.etName, R.string.enter_name_of_company)
+        checkBlank(binding.tilName, viewModel.companyUiState.value.name, R.string.enter_name_of_company)
         checkPattern(
             binding.tilBinIin,
-            binding.etBinIin,
+            viewModel.companyUiState.value.binIin,
             Regex("\\d{12}"),
             R.string.enter_bin_iin,
             R.string.error_bin_iin_format
         )
         checkPattern(
             binding.tilIic,
-            binding.etIic,
+            viewModel.companyUiState.value.iic,
             Regex("[A-Z0-9]{18}"),
             R.string.enter_iic,
             R.string.error_iic_format
         )
-        checkBlank(binding.tilBank, binding.etBank, R.string.enter_bank)
+        checkBlank(binding.tilBank, viewModel.companyUiState.value.bank, R.string.enter_bank)
         checkPattern(
             binding.tilBic,
-            binding.etBic,
+            viewModel.companyUiState.value.bic,
             Regex("[A-Z0-9]{8}"),
             R.string.enter_bic,
             R.string.error_bic_format
         )
         checkPattern(
             binding.tilPhone,
-            binding.etPhone,
+            viewModel.companyUiState.value.phone,
             Regex("\\+?[\\d\\s\\-()]{7,15}"),
             R.string.enter_phone,
             R.string.error_phone_format
         )
         checkPattern(
             binding.tilEmail,
-            binding.etEmail,
+            viewModel.companyUiState.value.email,
             Patterns.EMAIL_ADDRESS.toRegex(),
             R.string.enter_email,
             R.string.error_email_format
         )
-        checkBlank(binding.tilAddress, binding.etAddress, R.string.enter_address)
+        checkBlank(binding.tilAddress, viewModel.companyUiState.value.address, R.string.enter_address)
 
         return valid
     }

@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 class GetCompanyUseCase(
     private val companyRepository: CompanyRepository
 ) {
-     operator fun invoke(): Flow<Company?> = companyRepository.getCompany()
+    operator fun invoke(): Flow<Company?> = companyRepository.getCompany()
 }
