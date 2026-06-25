@@ -1,7 +1,6 @@
 package com.example.carrier.fragments.profile
 
 import android.os.Bundle
-import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -11,10 +10,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.carrier.R
 import com.example.carrier.databinding.FragmentProfileBinding
+import com.example.carrier.extension.showError
 import com.example.carrier.fragments.BaseFragment
 import com.example.carrier.fragments.profile.adapter.VehicleAdapter
 import com.example.carrier.model.ProfileUiState
-import com.google.android.material.textfield.TextInputLayout
+import com.example.carrier.validation.company.CompanyValidationError
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -24,17 +24,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
 ) {
 
     private val viewModel: ProfileViewModel by viewModels()
-    private val adapter = VehicleAdapter()
+    private val vehicleAdapter = VehicleAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    setUi(it)
-                }
-            }
-        }
+
+        observeState()
+        observeErrors()
+        setupListeners()
+        setupRecyclerView()
     }
 
     private fun setUi(item: ProfileUiState) {
@@ -49,10 +47,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
                 binding.llCreateCompany.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.GONE
                 binding.svCompanyInfo.visibility = View.GONE
-                binding.btnSave.setOnClickListener {
-                    createCompany()
-                }
-                setupListenersForCreateCompany()
             }
 
             is ProfileUiState.Content -> {
@@ -68,7 +62,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
                     binding.rvVehicles.visibility = View.VISIBLE
                     binding.tvNoVehicles.visibility = View.GONE
                     binding.btnAddVehicle.visibility = if (item.vehicle.size < 3) View.VISIBLE else View.GONE
-                    setupRecyclerView(item)
+                    vehicleAdapter.submitList(item.vehicle)
                 }
 
                 binding.tvNameCompany.text = item.company.name
@@ -79,122 +73,130 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
                 binding.tvPhoneOfUser.text = item.company.phone
                 binding.tvEmailOfUser.text = item.company.email
                 binding.tvAddressOfUser.text = item.company.address
-                binding.btnAddVehicle.setOnClickListener {
-                    findNavController().navigate(R.id.addVehicleDialogFragment)
-                }
             }
         }
     }
 
-    private fun setupListenersForCreateCompany() {
-        binding.etName.doAfterTextChanged {
-            viewModel.onNameChanged(it.toString())
-        }
-        binding.etBinIin.doAfterTextChanged {
-            viewModel.onBinIinChanged(it.toString())
-        }
-        binding.etIic.doAfterTextChanged {
-            viewModel.onIicChanged(it.toString())
-        }
-        binding.etBank.doAfterTextChanged {
-            viewModel.onBankChanged(it.toString())
-        }
-        binding.etBic.doAfterTextChanged {
-            viewModel.onBicChanged(it.toString())
-        }
-        binding.etPhone.doAfterTextChanged {
-            viewModel.onPhoneChanged(it.toString())
-        }
-        binding.etEmail.doAfterTextChanged {
-            viewModel.onEmailChanged(it.toString())
-        }
-        binding.etAddress.doAfterTextChanged {
-            viewModel.onAddressChanged(it.toString())
-        }
-    }
+    private fun setupListeners() {
+        setupFormListeners()
 
-    private fun setupRecyclerView(item: ProfileUiState.Content) {
-        binding.rvVehicles.adapter = adapter
-        adapter.submitList(item.vehicle)
-    }
-
-    private fun createCompany() {
-        if (validateForm()) {
+        binding.btnSave.setOnClickListener {
             viewModel.createCompany()
         }
+
+        binding.btnAddVehicle.setOnClickListener {
+            findNavController().navigate(R.id.addVehicleDialogFragment)
+        }
     }
 
-    private fun validateForm(): Boolean {
-        var valid = true
+    private fun setupFormListeners() {
+        binding.etName.doAfterTextChanged {
+            viewModel.updateForm { copy(name = it.toString()) }
+        }
+        binding.etBinIin.doAfterTextChanged {
+            viewModel.updateForm { copy(binIin = it.toString()) }
+        }
+        binding.etIic.doAfterTextChanged {
+            viewModel.updateForm { copy(iic = it.toString()) }
+        }
+        binding.etBank.doAfterTextChanged {
+            viewModel.updateForm { copy(bank = it.toString()) }
+        }
+        binding.etBic.doAfterTextChanged {
+            viewModel.updateForm { copy(bic = it.toString()) }
+        }
+        binding.etPhone.doAfterTextChanged {
+            viewModel.updateForm { copy(phone = it.toString()) }
+        }
+        binding.etEmail.doAfterTextChanged {
+            viewModel.updateForm { copy(email = it.toString()) }
+        }
+        binding.etAddress.doAfterTextChanged {
+            viewModel.updateForm { copy(address = it.toString()) }
+        }
+    }
 
-        fun checkBlank(til: TextInputLayout, text: String, errorRes: Int) {
-            if (text.isBlank()) {
-                til.error = getString(errorRes)
-                valid = false
-            } else {
-                til.error = null
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    setUi(it)
+                }
             }
         }
+    }
 
-        fun checkPattern(
-            til: TextInputLayout,
-            text: String,
-            pattern: Regex,
-            blankRes: Int,
-            formatRes: Int
-        ) {
-            when {
-                text.isBlank() -> {
-                    til.error = getString(blankRes); valid = false
+    private fun observeErrors() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errors.collect {
+                    setErrors(it)
                 }
-
-                !text.matches(pattern) -> {
-                    til.error = getString(formatRes); valid = false
-                }
-
-                else -> til.error = null
             }
         }
+    }
 
-        checkBlank(binding.tilName, viewModel.companyUiState.value.name, R.string.enter_name_of_company)
-        checkPattern(
-            binding.tilBinIin,
-            viewModel.companyUiState.value.binIin,
-            Regex("\\d{12}"),
+    private fun setupRecyclerView() {
+        binding.rvVehicles.adapter = vehicleAdapter
+    }
+
+    private fun setErrors(errors: Set<CompanyValidationError>) {
+        binding.tilName.showError(
+            errors,
+            CompanyValidationError.NameEmpty,
+            R.string.enter_name_of_company
+        )
+
+        binding.tilBinIin.showError(
+            errors,
+            CompanyValidationError.BinEmpty,
             R.string.enter_bin_iin,
+            CompanyValidationError.BinInvalid,
             R.string.error_bin_iin_format
         )
-        checkPattern(
-            binding.tilIic,
-            viewModel.companyUiState.value.iic,
-            Regex("[A-Z0-9]{18}"),
+
+        binding.tilIic.showError(
+            errors,
+            CompanyValidationError.IicEmpty,
             R.string.enter_iic,
+            CompanyValidationError.IicInvalid,
             R.string.error_iic_format
         )
-        checkBlank(binding.tilBank, viewModel.companyUiState.value.bank, R.string.enter_bank)
-        checkPattern(
-            binding.tilBic,
-            viewModel.companyUiState.value.bic,
-            Regex("[A-Z0-9]{8}"),
+
+        binding.tilBank.showError(
+            errors,
+            CompanyValidationError.BankEmpty,
+            R.string.enter_bank
+        )
+
+        binding.tilBic.showError(
+            errors,
+            CompanyValidationError.BicEmpty,
             R.string.enter_bic,
+            CompanyValidationError.BicInvalid,
             R.string.error_bic_format
         )
-        checkPattern(
-            binding.tilPhone,
-            viewModel.companyUiState.value.phone,
-            Regex("\\+?[\\d\\s\\-()]{7,15}"),
+
+        binding.tilPhone.showError(
+            errors,
+            CompanyValidationError.PhoneEmpty,
             R.string.enter_phone,
+            CompanyValidationError.PhoneInvalid,
             R.string.error_phone_format
         )
-        checkPattern(
-            binding.tilEmail,
-            viewModel.companyUiState.value.email,
-            Patterns.EMAIL_ADDRESS.toRegex(),
+
+        binding.tilEmail.showError(
+            errors,
+            CompanyValidationError.EmailEmpty,
             R.string.enter_email,
+            CompanyValidationError.EmailInvalid,
             R.string.error_email_format
         )
-        checkBlank(binding.tilAddress, viewModel.companyUiState.value.address, R.string.enter_address)
 
-        return valid
+        binding.tilAddress.showError(
+            errors,
+            CompanyValidationError.AddressEmpty,
+            R.string.enter_address
+        )
     }
 }

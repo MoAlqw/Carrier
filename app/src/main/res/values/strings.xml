@@ -20,6 +20,7 @@
     <string name="bank_information">Банковская Информация</string>
     <string name="contacts">Контакты</string>
     <string name="save">Сохранить</string>
+
     <string name="enter_name_of_company">Введите наименование компании</string>
     <string name="enter_bin_iin">Введите БИН/ИИН</string>
     <string name="enter_iic">Введите ИИК</string>
@@ -34,6 +35,15 @@
     <string name="error_bic_format">БИК должен содержать 8–11 символов</string>
     <string name="error_phone_format">Неверный формат телефона</string>
     <string name="error_email_format">Неверный формат email</string>
+
+    <string name="enter_brand">Введите марку</string>
+    <string name="enter_model">Введите модель</string>
+    <string name="enter_plate">Введите госномер</string>
+    <string name="enter_fuel_consumption">Введите расход топлива</string>
+
+    <string name="error_plate_format">Формат корректного госномера: 123 ABC 10 </string>
+    <string name="error_fuel_consumption_format">Неверный формат расхода топлива</string>
+
     <string name="empty_list_of_vehicles">Список автомобилей пуст</string>
     <string name="add_vehicle">Добавить Авто</string>
     <string name="new_vehicle">Новый автомобиль</string>
