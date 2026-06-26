@@ -1,4 +1,4 @@
-package com.example.carrier.fragments.flights.createtrip
+package com.example.carrier.fragments.flights.trips.createtrip
 
 import android.os.Bundle
 import android.view.View

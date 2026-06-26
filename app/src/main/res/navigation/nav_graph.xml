@@ -45,7 +45,7 @@
 
     <fragment
         android:id="@+id/createTripFragment"
-        android:name="com.example.carrier.fragments.flights.createtrip.CreateTripFragment"
+        android:name="com.example.carrier.fragments.flights.trips.createtrip.CreateTripFragment"
         android:label="@string/create_trip" />
 
     <fragment

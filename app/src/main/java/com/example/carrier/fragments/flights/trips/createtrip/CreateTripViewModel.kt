@@ -1,4 +1,4 @@
-package com.example.carrier.fragments.flights.createtrip
+package com.example.carrier.fragments.flights.trips.createtrip
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
