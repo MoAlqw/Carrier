@@ -11,9 +11,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.carrier.R
 import com.example.carrier.databinding.FragmentTripFormBinding
+import com.example.carrier.extension.showError
 import com.example.carrier.fragments.BaseFragment
-import com.example.carrier.model.CreateTripFormState
+import com.example.carrier.model.CreateTripForm
 import com.example.carrier.utils.DateFormatter
+import com.example.carrier.validation.trip.TripValidationError
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,6 +43,13 @@ class CreateTripFragment: BaseFragment<FragmentTripFormBinding>(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errors.collect {
+                    setErrors(it)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.tripCreated.collect {
                     findNavController().popBackStack()
                 }
@@ -60,9 +69,10 @@ class CreateTripFragment: BaseFragment<FragmentTripFormBinding>(
         }
     }
 
-    private fun setUi(state: CreateTripFormState) {
+    private fun setUi(state: CreateTripForm) {
         val estimatedFuelCost = state.estimatedFuelCost
 
+        binding.etDate.setText(state.date)
         binding.tvEstimatedFuelCost.text = getString(
             R.string.full_price,
             estimatedFuelCost
@@ -89,24 +99,69 @@ class CreateTripFragment: BaseFragment<FragmentTripFormBinding>(
         )
     }
 
+    private fun setErrors(errors: Set<TripValidationError>) {
+        binding.tilRoute.showError(
+            errors,
+            TripValidationError.RouteEmpty,
+            R.string.error_route_empty
+        )
+        binding.tilClient.showError(
+            errors,
+            TripValidationError.ClientEmpty,
+            R.string.error_client_empty
+        )
+        binding.tilKm.showError(
+            errors,
+            TripValidationError.KmEmpty,
+            R.string.error_km_empty
+        )
+        binding.tilAmount.showError(
+            errors,
+            TripValidationError.AmountEmpty,
+            R.string.error_amount_empty
+        )
+        binding.tilDate.showError(
+            errors,
+            TripValidationError.DateEmpty,
+            R.string.error_date_empty
+        )
+        binding.tilVehicle.showError(
+            errors,
+            TripValidationError.VehicleEmpty,
+            R.string.error_vehicle_empty
+        )
+    }
+
     private fun setupListeners() = with(binding) {
         etRoute.doAfterTextChanged {
-            viewModel.onRouteChanged(it.toString())
+            viewModel.updateForm {
+                copy(route = it.toString())
+            }
         }
         etClient.doAfterTextChanged {
-            viewModel.onClientChanged(it.toString())
+            viewModel.updateForm {
+                copy(client = it.toString())
+            }
         }
         etKm.doAfterTextChanged {
-            viewModel.onKmChanged(it.toString())
+            viewModel.updateForm {
+                copy(km = it.toString())
+            }
         }
         etAmount.doAfterTextChanged {
-            viewModel.onAmountChanged(it.toString())
+            viewModel.updateForm {
+                copy(amount = it.toString())
+            }
         }
         etFuelPrice.doAfterTextChanged {
-            viewModel.onFuelPriceChanged(it.toString())
+            viewModel.updateForm {
+                copy(fuelPrice = it.toString())
+            }
         }
         etFuelConsumption.doAfterTextChanged {
-            viewModel.onFuelConsumptionChanged(it.toString())
+            viewModel.updateForm {
+                copy(fuelConsumption = it.toString())
+            }
         }
         btnStartTrip.setOnClickListener {
             viewModel.createTrip()
@@ -129,8 +184,9 @@ class CreateTripFragment: BaseFragment<FragmentTripFormBinding>(
         picker.show(parentFragmentManager, "date_picker")
 
         picker.addOnPositiveButtonClickListener { millis ->
-            binding.etDate.setText(DateFormatter.format(millis))
-            viewModel.onDateSelected(DateFormatter.toInstant(millis))
+            viewModel.updateForm {
+                copy(date = DateFormatter.format(millis))
+            }
         }
     }
 }

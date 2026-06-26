@@ -2,9 +2,10 @@ package com.example.carrier.fragments.flights.trips.createtrip
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.carrier.model.CreateTripFormState
-import com.example.domain.model.Trip
-import com.example.domain.model.TripStatus
+import com.example.carrier.model.CreateTripForm
+import com.example.carrier.model.toTrip
+import com.example.carrier.validation.trip.TripValidationError
+import com.example.carrier.validation.trip.TripValidator
 import com.example.domain.usecase.CreateTripUseCase
 import com.example.domain.usecase.GetVehiclesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,17 +17,20 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.Instant
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateTripViewModel @Inject constructor(
     private val createTripUseCase: CreateTripUseCase,
-    getVehiclesUseCase: GetVehiclesUseCase
+    getVehiclesUseCase: GetVehiclesUseCase,
+    private val tripValidator: TripValidator
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CreateTripFormState())
+    private val _state = MutableStateFlow(CreateTripForm())
     val state = _state.asStateFlow()
+
+    private val _errors = MutableStateFlow<Set<TripValidationError>>(emptySet())
+    val errors = _errors.asStateFlow()
 
     private val _tripCreated = MutableSharedFlow<Unit>()
     val tripCreated = _tripCreated.asSharedFlow()
@@ -38,64 +42,32 @@ class CreateTripViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    fun onDateSelected(date: Instant) {
-        _state.update { it.copy(date = date) }
-    }
-
-    fun onRouteChanged(value: String) {
-        _state.update { it.copy(route = value) }
-    }
-
-    fun onClientChanged(value: String) {
-        _state.update { it.copy(client = value) }
+    fun updateForm(update: CreateTripForm.() -> CreateTripForm) {
+        _state.update {
+            it.update()
+        }
     }
 
     fun onVehicleSelected(id: Long) {
-        val vehicleSelected = vehicles.value.find { it.id == id } ?: return
-        _state.update {
-            it.copy(
-                vehicleId = vehicleSelected.id,
-                fuelConsumption = vehicleSelected.fuelConsumption.toString()
+        val vehicle = vehicles.value.find { it.id == id } ?: return
+
+        updateForm {
+            copy(
+                vehicleId = vehicle.id,
+                fuelConsumption = vehicle.fuelConsumption.toString()
             )
         }
     }
 
-    fun onAmountChanged(value: String) {
-        _state.update { it.copy(amount = value) }
-    }
-
-    fun onKmChanged(value: String) {
-        _state.update { it.copy(km = value) }
-    }
-
-    fun onFuelPriceChanged(value: String) {
-        _state.update { it.copy(fuelPrice = value) }
-    }
-
-    fun onFuelConsumptionChanged(value: String) {
-        _state.update { it.copy(fuelConsumption = value) }
-    }
-
     fun createTrip() {
-        val state = _state.value
-
-        if (!state.isValid()) return
-
         viewModelScope.launch {
-            createTripUseCase(
-                Trip(
-                    id = 0,
-                    date = state.date!!,
-                    route = state.route,
-                    vehicleId = state.vehicleId!!,
-                    client = state.client,
-                    amount = state.amount.toLong(),
-                    km = state.km.toLong(),
-                    status = TripStatus.IN_PROGRESS,
-                    createdAt = Instant.now()
-                )
-            )
-            _tripCreated.emit(Unit)
+            val state = _state.value
+            val errors = tripValidator.validate(state)
+            _errors.value = errors
+            if (errors.isEmpty()) {
+                createTripUseCase(state.toTrip())
+                _tripCreated.emit(Unit)
+            }
         }
     }
 }

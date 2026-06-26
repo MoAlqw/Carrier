@@ -44,6 +44,18 @@
     <string name="error_plate_format">Формат корректного госномера: 123 ABC 10 </string>
     <string name="error_fuel_consumption_format">Неверный формат расхода топлива</string>
 
+    <string name="error_date_empty">Введите дату</string>
+    <string name="error_route_empty">Введите маршрут</string>
+    <string name="error_vehicle_empty">Выберите автомобиль</string>
+    <string name="error_client_empty">Введите заказчика</string>
+    <string name="error_amount_empty">Введите сумму</string>
+    <string name="error_km_empty">Введите километраж</string>
+
+    <string name="error_category_empty">Выберите категорию затраты</string>
+    <string name="error_name_empty">Введите наименование</string>
+
+    <string name="error_amount_invalid">Сумма должна быть корректной</string>
+
     <string name="empty_list_of_vehicles">Список автомобилей пуст</string>
     <string name="add_vehicle">Добавить Авто</string>
     <string name="new_vehicle">Новый автомобиль</string>

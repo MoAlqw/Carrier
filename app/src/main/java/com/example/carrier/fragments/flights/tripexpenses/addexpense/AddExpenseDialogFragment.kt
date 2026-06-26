@@ -11,10 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.carrier.R
 import com.example.carrier.databinding.FragmentAddExpenseDialogBinding
+import com.example.carrier.extension.showError
 import com.example.carrier.extension.toDisplayName
 import com.example.carrier.fragments.NavKeys
 import com.example.domain.model.ExpenseCategory
 import com.example.carrier.utils.DateFormatter
+import com.example.carrier.validation.expense.ExpenseValidationError
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +42,48 @@ class AddExpenseDialogFragment : DialogFragment() {
             .create()
     }
 
+    private fun observeState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.expenseCreated.collect {
+                    dismiss()
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errors.collect {
+                    setErrors(it)
+                }
+            }
+        }
+    }
+
+    private fun setErrors(errors: Set<ExpenseValidationError>) {
+        binding.tilDate.showError(
+            errors,
+            ExpenseValidationError.DateEmpty,
+            R.string.error_date_empty
+        )
+        binding.tilOther.showError(
+            errors,
+            ExpenseValidationError.NameEmpty,
+            R.string.error_name_empty
+        )
+        binding.tilCategory.showError(
+            errors,
+            ExpenseValidationError.CategoryEmpty,
+            R.string.error_category_empty
+        )
+        binding.tilAmount.showError(
+            errors,
+            ExpenseValidationError.SumEmpty,
+            R.string.error_amount_empty,
+            ExpenseValidationError.SumInvalid,
+            R.string.error_amount_invalid
+        )
+    }
+
     private fun setupListeners() {
         binding.btnCancel.setOnClickListener {
             dismiss()
@@ -51,10 +95,14 @@ class AddExpenseDialogFragment : DialogFragment() {
             openDatePicker()
         }
         binding.etAmount.doAfterTextChanged {
-            viewModel.onSumChanged(it.toString())
+            viewModel.updateForm {
+                copy(sum = it.toString())
+            }
         }
         binding.etOther.doAfterTextChanged {
-            viewModel.onNameOfExpanseChanged(it.toString())
+            viewModel.updateForm {
+                copy(name = it.toString())
+            }
         }
 
         val adapter = ArrayAdapter(
@@ -66,16 +114,8 @@ class AddExpenseDialogFragment : DialogFragment() {
         binding.actvCategory.setAdapter(adapter)
 
         binding.actvCategory.setOnItemClickListener { _, _, position, _ ->
-            viewModel.onCategoryChanged(ExpenseCategory.entries[position])
-        }
-    }
-
-    private fun observeState() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.expenseCreated.collect {
-                    dismiss()
-                }
+            viewModel.updateForm {
+                copy(category = ExpenseCategory.entries[position])
             }
         }
     }
@@ -89,7 +129,9 @@ class AddExpenseDialogFragment : DialogFragment() {
 
         picker.addOnPositiveButtonClickListener { millis ->
             binding.etDate.setText(DateFormatter.format(millis))
-            viewModel.onDateChanged(DateFormatter.toInstant(millis))
+            viewModel.updateForm {
+                copy(date = millis.toString())
+            }
         }
     }
 

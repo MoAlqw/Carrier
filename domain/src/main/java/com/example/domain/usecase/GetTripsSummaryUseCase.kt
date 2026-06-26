@@ -1,5 +1,6 @@
 package com.example.domain.usecase
 
+import com.example.domain.model.TripFinanceCalculator
 import com.example.domain.model.TripWithExpenses
 import com.example.domain.model.TripSummary
 
@@ -11,17 +12,15 @@ class GetTripsSummaryUseCase{
             tripDetails.expenses.sumOf { it.amount }
         }
 
-        val profit = revenue - expenses
-
-        val profitability =
-            if (revenue == 0L) 0
-            else profit * 100 / revenue
+        val grossProfit = TripFinanceCalculator.grossProfit(revenue, expenses)
+        val netProfit = TripFinanceCalculator.netProfit(grossProfit)
+        val profitability = TripFinanceCalculator.profitability(revenue, netProfit)
 
         return TripSummary(
             tripsCount = trips.size,
             revenue = revenue,
             expenses = expenses,
-            profit = profit,
+            profit = grossProfit,
             profitability = profitability
         )
     }

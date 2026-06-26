@@ -2,24 +2,30 @@ package com.example.carrier.fragments.flights.tripexpenses.addexpense
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.carrier.model.CreateExpanseFormState
-import com.example.domain.model.Expense
-import com.example.domain.model.ExpenseCategory
+import com.example.carrier.model.CreateExpanseForm
+import com.example.carrier.model.toExpense
+import com.example.carrier.validation.expense.ExpenseValidationError
+import com.example.carrier.validation.expense.ExpenseValidator
 import com.example.domain.usecase.CreateExpenseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.Instant
 import javax.inject.Inject
 
 @HiltViewModel
 class AddExpenseDialogViewModel @Inject constructor(
-    private val createExpenseUseCase: CreateExpenseUseCase
+    private val createExpenseUseCase: CreateExpenseUseCase,
+    private val expenseValidator: ExpenseValidator
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CreateExpanseFormState())
+    private val _state = MutableStateFlow(CreateExpanseForm())
+
+    private val _errors = MutableStateFlow<Set<ExpenseValidationError>>(emptySet())
+    val errors = _errors.asStateFlow()
 
     private val _expenseCreated = MutableSharedFlow<Unit>()
     val expenseCreated = _expenseCreated.asSharedFlow()
@@ -30,39 +36,21 @@ class AddExpenseDialogViewModel @Inject constructor(
         tripId = id
     }
 
-    fun onCategoryChanged(category: ExpenseCategory) {
-        _state.value.category = category
-    }
-
-    fun onNameOfExpanseChanged(name: String) {
-        _state.value.name = name
-    }
-
-    fun onSumChanged(sum: String) {
-        _state.value.sum = sum
-    }
-
-    fun onDateChanged(date: Instant) {
-        _state.value.date = date
+    fun updateForm(update: CreateExpanseForm.() -> CreateExpanseForm) {
+        _state.update {
+            it.update()
+        }
     }
 
     fun createExpense() {
-        val state = _state.value
-
-        if (!state.isValid()) return
-
         viewModelScope.launch {
-            createExpenseUseCase(
-                Expense(
-                    id = 0,
-                    category = state.category!!,
-                    name = state.name,
-                    amount = state.sum.toLong(),
-                    tripId = tripId!!,
-                    date = state.date!!
-                )
-            )
-            _expenseCreated.emit(Unit)
+            val state = _state.value
+            val errors = expenseValidator.validate(state)
+            _errors.value = errors
+            if (errors.isEmpty()) {
+                createExpenseUseCase(state.toExpense())
+                _expenseCreated.emit(Unit)
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.example.carrier.model
 
+import com.example.domain.model.TripFinanceCalculator
 import com.example.domain.model.TripStatus
 import com.example.domain.model.TripWithExpenses
-import kotlin.math.roundToLong
 
 data class ExpensesTripUi(
     val id: Long,
@@ -13,11 +13,14 @@ data class ExpensesTripUi(
     val totalExpenses: Long
         get() = expenses.sumOf { it.amount }
 
+    private val grossProfit: Long
+        get() = TripFinanceCalculator.grossProfit(amount, totalExpenses)
+
     val tax: Long
-        get() = ((amount - totalExpenses) * 0.12).roundToLong()
+        get() = TripFinanceCalculator.tax(grossProfit)
 
     val netProfit: Long
-        get() = (amount - totalExpenses - tax)
+        get() = TripFinanceCalculator.netProfit(grossProfit)
 }
 
 fun TripWithExpenses.toExpensesTripUi() = ExpensesTripUi(

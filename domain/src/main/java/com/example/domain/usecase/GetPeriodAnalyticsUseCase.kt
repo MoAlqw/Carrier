@@ -2,6 +2,7 @@ package com.example.domain.usecase
 
 import com.example.domain.model.AnalyticsPeriod
 import com.example.domain.model.PeriodAnalytics
+import com.example.domain.model.TripFinanceCalculator
 import com.example.domain.model.TripWithExpenses
 import java.time.YearMonth
 import java.time.ZoneId
@@ -49,7 +50,7 @@ class GetPeriodAnalyticsUseCase {
                 tripsCount = monthTrips.size,
                 revenue = revenue,
                 expenses = expenses,
-                profit = revenue - expenses
+                profit = TripFinanceCalculator.grossProfit(revenue, expenses)
             )
 
             cursor = cursor.plusMonths(1)
@@ -89,7 +90,7 @@ class GetPeriodAnalyticsUseCase {
                 tripsCount = yearTrips.size,
                 revenue = revenue,
                 expenses = expenses,
-                profit = revenue - expenses
+                profit = TripFinanceCalculator.grossProfit(revenue, expenses)
             )
         }
 

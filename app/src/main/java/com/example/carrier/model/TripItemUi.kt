@@ -1,5 +1,6 @@
 package com.example.carrier.model
 
+import com.example.domain.model.TripFinanceCalculator
 import com.example.domain.model.TripStatus
 import com.example.domain.model.TripWithExpensesAndVehicle
 import java.time.Instant
@@ -20,16 +21,16 @@ data class TripItemUi(
         get() = expenses.sumOf { it.amount }
 
     val grossProfit: Long
-        get() = amount - totalExpenses
+        get() = TripFinanceCalculator.grossProfit(amount, totalExpenses)
 
     val netProfit: Long
-        get() = amount - totalExpenses - tax
+        get() = TripFinanceCalculator.netProfit(grossProfit)
 
     val tax: Long
-        get() = (amount - totalExpenses) * 12 / 100
+        get() = TripFinanceCalculator.tax(grossProfit)
 
     val profitability: Long
-        get() = (amount - totalExpenses - tax) * 100 / amount
+        get() = TripFinanceCalculator.profitability(amount, netProfit)
 }
 
 fun TripWithExpensesAndVehicle.toTripItemUi() = TripItemUi(
