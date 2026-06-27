@@ -1,9 +1,10 @@
-package com.example.carrier.presentation.tripexpenses
+package com.example.carrier.presentation.expenses
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.GetTripWithExpensesByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +21,7 @@ class FragmentTripExpensesViewModel @Inject constructor(
 
     private val tripId = MutableStateFlow<Long?>(null)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val trip: StateFlow<ExpensesTripUi?> =
         tripId
             .filterNotNull()

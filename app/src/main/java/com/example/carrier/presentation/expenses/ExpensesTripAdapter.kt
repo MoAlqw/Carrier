@@ -1,4 +1,4 @@
-package com.example.carrier.presentation.tripexpenses
+package com.example.carrier.presentation.expenses
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.example.carrier.presentation.tripexpenses
+package com.example.carrier.presentation.expenses
 
 import com.example.carrier.common.ExpenseItemUi
 import com.example.carrier.common.toExpenseItemUi

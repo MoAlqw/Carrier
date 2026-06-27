@@ -1,4 +1,4 @@
-package com.example.carrier.presentation.tripexpenses
+package com.example.carrier.presentation.expenses
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle

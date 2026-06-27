@@ -65,4 +65,12 @@ class TripRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override fun getInProgressTripsWithExpensesAndVehicle(): Flow<List<TripWithExpensesAndVehicle>> {
+        return tripDao.getInProgressTripsWithVehicleAndExpenses().map {
+            it.map { tripWithExpensesAndVehicle ->
+                tripWithExpensesAndVehicle.toTripWithExpensesAndVehicle()
+            }
+        }
+    }
 }

@@ -66,7 +66,7 @@
 
     <fragment
         android:id="@+id/tripExpensesFragment"
-        android:name="com.example.carrier.presentation.tripexpenses.FragmentTripExpenses"
+        android:name="com.example.carrier.presentation.expenses.FragmentTripExpenses"
         android:label="Расходы рейса #{tripId}">
         <argument
             android:name="tripId"

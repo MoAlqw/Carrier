@@ -46,7 +46,7 @@ class AddExpenseDialogViewModel @Inject constructor(
             val errors = expenseValidator.validate(state)
             _errors.value = errors
             if (errors.isEmpty()) {
-                createExpenseUseCase(state.toExpense())
+                createExpenseUseCase(state.toExpense(tripId!!))
                 _expenseCreated.emit(Unit)
             }
         }

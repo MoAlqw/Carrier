@@ -8,16 +8,16 @@ data class CreateExpanseForm(
     var category: ExpenseCategory? = null,
     var name: String = "",
     var sum: String = "",
-    var date: String? = ""
+    var date: String = ""
 )
 
-fun CreateExpanseForm.toExpense(): Expense {
+fun CreateExpanseForm.toExpense(tripId: Long): Expense {
     return Expense(
         id = 0,
-        tripId = 0,
+        tripId = tripId,
         category = category!!,
         name = name,
         amount = sum.toLong(),
-        date = DateFormatter.toInstant(date!!.toLong())
+        date = DateFormatter.toInstant(date.toLong())
     )
 }

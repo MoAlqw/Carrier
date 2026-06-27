@@ -12,6 +12,7 @@ import com.example.domain.usecase.GetClosedTripsWithExpensesAndVehicleUseCase
 import com.example.domain.usecase.GetClosedTripsWithExpensesUseCase
 import com.example.domain.usecase.GetCompanyUseCase
 import com.example.domain.usecase.GetExpenseCategoriesAnalyticsUseCase
+import com.example.domain.usecase.GetInProgressTripsWithExpensesAndVehicleUseCase
 import com.example.domain.usecase.GetPeriodAnalyticsUseCase
 import com.example.domain.usecase.GetTripWithExpensesAndVehicleByIdUseCase
 import com.example.domain.usecase.GetTripWithExpensesByIdUseCase
@@ -133,5 +134,12 @@ object UseCaseModule {
         tripRepository: TripRepository
     ): GetClosedTripsWithExpensesAndVehicleUseCase {
         return GetClosedTripsWithExpensesAndVehicleUseCase(tripRepository)
+    }
+
+    @Provides
+    fun provideGetInProgressTripsWithExpensesAndVehicleUseCase(
+        tripRepository: TripRepository
+    ): GetInProgressTripsWithExpensesAndVehicleUseCase {
+        return GetInProgressTripsWithExpensesAndVehicleUseCase(tripRepository)
     }
 }

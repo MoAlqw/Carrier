@@ -55,4 +55,13 @@ interface TripDao {
         ORDER BY date DESC
     """)
     fun getClosedTripsWithVehicleAndExpenses(): Flow<List<TripWithExpensesAndVehicleEntity>>
+
+    @Transaction
+    @Query("""
+        SELECT *
+        FROM trips
+        WHERE status = "IN_PROGRESS"
+        ORDER BY date DESC
+    """)
+    fun getInProgressTripsWithVehicleAndExpenses(): Flow<List<TripWithExpensesAndVehicleEntity>>
 }
