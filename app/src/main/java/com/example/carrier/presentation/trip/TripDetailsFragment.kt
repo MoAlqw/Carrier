@@ -112,21 +112,6 @@ class TripDetailsFragment : BaseFragment<FragmentTripBinding>(
         }
     }
 
-    private fun setClickListeners(trip: TripItemUi) {
-        binding.btnOpenExpenses.setOnClickListener {
-            val bundle = Bundle().apply {
-                putLong(NavKeys.TRIP_ID, trip.id)
-            }
-            findNavController().navigate(
-                R.id.action_tripDetailsFragment_to_tripExpensesFragment,
-                bundle
-            )
-        }
-        binding.btnFinishTrip.setOnClickListener {
-            viewModel.updateTripStatus()
-        }
-    }
-
     private fun setBaseInfoUi(trip: TripItemUi) {
         binding.tvRoute.text = trip.route
         binding.tvDate.text = DateFormatter.format(trip.date.toEpochMilli())
@@ -145,5 +130,20 @@ class TripDetailsFragment : BaseFragment<FragmentTripBinding>(
         binding.tvNetProfit.text = getString(R.string.full_price, trip.netProfit)
         binding.tvProfitability.text = getString(R.string.full_profitability, trip.profitability)
         binding.tvExpensesCount.text = getString(R.string.count_of_positions, trip.expenses.size)
+    }
+
+    private fun setClickListeners(trip: TripItemUi) {
+        binding.btnOpenExpenses.setOnClickListener {
+            val bundle = Bundle().apply {
+                putLong(NavKeys.TRIP_ID, trip.id)
+            }
+            findNavController().navigate(
+                R.id.action_tripDetailsFragment_to_tripExpensesFragment,
+                bundle
+            )
+        }
+        binding.btnFinishTrip.setOnClickListener {
+            viewModel.updateTripStatus()
+        }
     }
 }
