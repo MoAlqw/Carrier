@@ -44,34 +44,50 @@ class FragmentTripExpenses : BaseFragment<FragmentTripExpensesBinding>(
         }
     }
 
-    private fun setUi(trip: ExpensesTripUi) {
-        binding.tvRevenue.text = getString(R.string.full_price, trip.amount)
-        binding.tvExpensesTotal.text = getString(R.string.full_cost, trip.totalExpenses)
-        binding.tvTax.text = getString(R.string.full_cost, trip.tax)
-        binding.tvNetProfit.text = getString(R.string.full_price, trip.netProfit)
-        if (trip.expenses.isEmpty()) {
+    private fun setUi(expenses: ExpensesTripUi) {
+        setBaseInfoUi(expenses)
+        setExpensesListUi(expenses)
+        setWithTripStatusUi(expenses)
+        setClickListeners(expenses)
+    }
+
+    private fun setClickListeners(expenses: ExpensesTripUi) {
+        binding.btnAddExpense.setOnClickListener {
+            val bundle = Bundle().apply {
+                putLong(NavKeys.TRIP_ID, expenses.id)
+            }
+
+            findNavController().navigate(
+                R.id.addExpenseDialogFragment,
+                bundle
+            )
+        }
+    }
+
+    private fun setWithTripStatusUi(expenses: ExpensesTripUi) {
+        if (expenses.status == TripStatus.IN_PROGRESS) {
+            binding.btnAddExpense.visibility = View.VISIBLE
+        } else {
+            binding.btnAddExpense.visibility = View.GONE
+        }
+    }
+
+    private fun setExpensesListUi(expenses: ExpensesTripUi) {
+        if (expenses.expenses.isEmpty()) {
             binding.layoutEmptyState.visibility = View.VISIBLE
             binding.rvExpenses.visibility = View.GONE
         } else {
             binding.layoutEmptyState.visibility = View.GONE
             binding.rvExpenses.visibility = View.VISIBLE
-            adapter.submitList(trip.expenses)
+            adapter.submitList(expenses.expenses)
         }
-        if (trip.status == TripStatus.IN_PROGRESS) {
-            binding.btnAddExpense.visibility = View.VISIBLE
-            binding.btnAddExpense.setOnClickListener {
-                val bundle = Bundle().apply {
-                    putLong(NavKeys.TRIP_ID, trip.id)
-                }
+    }
 
-                findNavController().navigate(
-                    R.id.addExpenseDialogFragment,
-                    bundle
-                )
-            }
-        } else {
-            binding.btnAddExpense.visibility = View.GONE
-        }
+    private fun setBaseInfoUi(expenses: ExpensesTripUi) {
+        binding.tvRevenue.text = getString(R.string.full_price, expenses.amount)
+        binding.tvExpensesTotal.text = getString(R.string.full_cost, expenses.totalExpenses)
+        binding.tvTax.text = getString(R.string.full_cost, expenses.tax)
+        binding.tvNetProfit.text = getString(R.string.full_price, expenses.netProfit)
     }
 
     private fun setupRecyclerView() {

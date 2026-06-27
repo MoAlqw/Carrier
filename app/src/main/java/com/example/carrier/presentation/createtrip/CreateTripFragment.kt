@@ -33,13 +33,13 @@ class CreateTripFragment: BaseFragment<FragmentTripFormBinding>(
     }
 
     private fun observeState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
-                    setUi(it)
-                }
-            }
-        }
+        observeUi()
+        observeErrors()
+        observeTripCreated()
+        observeVehicles()
+    }
+
+    private fun observeErrors() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.errors.collect {
@@ -47,6 +47,19 @@ class CreateTripFragment: BaseFragment<FragmentTripFormBinding>(
                 }
             }
         }
+    }
+
+    private fun observeUi() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect {
+                    setUi(it)
+                }
+            }
+        }
+    }
+
+    private fun observeTripCreated() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.tripCreated.collect {
@@ -54,13 +67,22 @@ class CreateTripFragment: BaseFragment<FragmentTripFormBinding>(
                 }
             }
         }
+    }
+
+    private fun observeVehicles() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.vehicles.collect { vehicles ->
                     val adapter = ArrayAdapter(
                         requireContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        vehicles.map { it.brand + " " + it.model }
+                        vehicles.map {
+                            getString(
+                                R.string.vehicle_brand_and_model,
+                                it.brand,
+                                it.model
+                            )
+                        }
                     )
                     binding.actvVehicle.setAdapter(adapter)
                 }

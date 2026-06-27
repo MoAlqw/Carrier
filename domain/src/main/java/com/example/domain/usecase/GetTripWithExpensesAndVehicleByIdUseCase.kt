@@ -2,8 +2,8 @@ package com.example.domain.usecase
 
 import com.example.domain.repository.TripRepository
 
-class GetTripsWithExpensesUseCase(
+class GetTripWithExpensesAndVehicleByIdUseCase(
     private val tripRepository: TripRepository
 ) {
-    operator fun invoke() = tripRepository.getTripsWithExpenses()
+    operator fun invoke(id: Long) = tripRepository.getTripWithExpensesAndVehicleById(id)
 }

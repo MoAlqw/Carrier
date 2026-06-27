@@ -33,46 +33,78 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
         setupRecyclerView()
     }
 
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    setUi(it)
+                }
+            }
+        }
+    }
+
+    private fun observeErrors() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errors.collect {
+                    setErrors(it)
+                }
+            }
+        }
+    }
+
     private fun setUi(item: ProfileUiState) {
         when (item) {
             is ProfileUiState.Loading -> {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.svCompanyInfo.visibility = View.GONE
-                binding.llCreateCompany.visibility = View.GONE
+                setLoadingUi()
             }
 
             is ProfileUiState.CompanyNotCreated -> {
-                binding.llCreateCompany.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-                binding.svCompanyInfo.visibility = View.GONE
+                setCompanyNotCreatedUi()
             }
 
             is ProfileUiState.Content -> {
-                binding.svCompanyInfo.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-                binding.llCreateCompany.visibility = View.GONE
-
-                if (item.vehicle.isEmpty()) {
-                    binding.tvNoVehicles.visibility = View.VISIBLE
-                    binding.btnAddVehicle.visibility = View.VISIBLE
-                    binding.rvVehicles.visibility = View.GONE
-                } else {
-                    binding.rvVehicles.visibility = View.VISIBLE
-                    binding.tvNoVehicles.visibility = View.GONE
-                    binding.btnAddVehicle.visibility = if (item.vehicle.size < 3) View.VISIBLE else View.GONE
-                    vehicleAdapter.submitList(item.vehicle)
-                }
-
-                binding.tvNameCompany.text = item.company.name
-                binding.tvIin.text = item.company.binIin
-                binding.tvIICOfUser.text = item.company.iic
-                binding.tvBancOfUser.text = item.company.bank
-                binding.tvBICOfUser.text = item.company.bic
-                binding.tvPhoneOfUser.text = item.company.phone
-                binding.tvEmailOfUser.text = item.company.email
-                binding.tvAddressOfUser.text = item.company.address
+                setCompanyExistUi(item)
             }
         }
+    }
+
+    private fun setCompanyExistUi(item: ProfileUiState.Content) {
+        binding.svCompanyInfo.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+        binding.llCreateCompany.visibility = View.GONE
+
+        if (item.vehicle.isEmpty()) {
+            binding.tvNoVehicles.visibility = View.VISIBLE
+            binding.btnAddVehicle.visibility = View.VISIBLE
+            binding.rvVehicles.visibility = View.GONE
+        } else {
+            binding.rvVehicles.visibility = View.VISIBLE
+            binding.tvNoVehicles.visibility = View.GONE
+            binding.btnAddVehicle.visibility = if (item.vehicle.size < 3) View.VISIBLE else View.GONE
+            vehicleAdapter.submitList(item.vehicle)
+        }
+
+        binding.tvNameCompany.text = item.company.name
+        binding.tvIin.text = item.company.binIin
+        binding.tvIICOfUser.text = item.company.iic
+        binding.tvBancOfUser.text = item.company.bank
+        binding.tvBICOfUser.text = item.company.bic
+        binding.tvPhoneOfUser.text = item.company.phone
+        binding.tvEmailOfUser.text = item.company.email
+        binding.tvAddressOfUser.text = item.company.address
+    }
+
+    private fun setCompanyNotCreatedUi() {
+        binding.llCreateCompany.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+        binding.svCompanyInfo.visibility = View.GONE
+    }
+
+    private fun setLoadingUi() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.svCompanyInfo.visibility = View.GONE
+        binding.llCreateCompany.visibility = View.GONE
     }
 
     private fun setupListeners() {
@@ -111,26 +143,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
         }
         binding.etAddress.doAfterTextChanged {
             viewModel.updateForm { copy(address = it.toString()) }
-        }
-    }
-
-    private fun observeState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    setUi(it)
-                }
-            }
-        }
-    }
-
-    private fun observeErrors() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.errors.collect {
-                    setErrors(it)
-                }
-            }
         }
     }
 

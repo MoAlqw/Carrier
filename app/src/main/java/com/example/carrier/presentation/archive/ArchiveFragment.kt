@@ -54,6 +54,11 @@ class ArchiveFragment : BaseFragment<FragmentArchiveBinding>(
     }
 
     private fun setUi(trips: List<TripItemUi>) {
+        setBaseInfoUi(trips)
+        setTripsListUi(trips)
+    }
+
+    private fun setBaseInfoUi(trips: List<TripItemUi>) {
         binding.tvTripsCount.text = trips.size.toString()
         binding.tvRevenueTotal.text = getString(
             R.string.full_price,
@@ -61,16 +66,15 @@ class ArchiveFragment : BaseFragment<FragmentArchiveBinding>(
         )
         binding.tvExpensesTotal.text = getString(
             R.string.full_cost,
-            trips.sumOf {
-                it.expenses.sumOf { expense ->  expense.amount }
-            }
+            trips.sumOf { it.totalExpenses }
         )
         binding.tvProfitTotal.text = getString(
             R.string.full_price,
-            trips.sumOf { it.amount } - trips.sumOf {
-                it.expenses.sumOf { expense ->  expense.amount }
-            }
+            trips.sumOf { it.netProfit }
         )
+    }
+
+    private fun setTripsListUi(trips: List<TripItemUi>) {
         if (trips.isEmpty()) {
             binding.rvArchive.visibility = View.GONE
             binding.layoutEmptyState.visibility = View.VISIBLE

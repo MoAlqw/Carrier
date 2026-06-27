@@ -12,10 +12,10 @@ import com.example.domain.usecase.GetClosedTripsWithExpensesUseCase
 import com.example.domain.usecase.GetCompanyUseCase
 import com.example.domain.usecase.GetExpenseCategoriesAnalyticsUseCase
 import com.example.domain.usecase.GetPeriodAnalyticsUseCase
+import com.example.domain.usecase.GetTripWithExpensesAndVehicleByIdUseCase
 import com.example.domain.usecase.GetTripWithExpensesByIdUseCase
 import com.example.domain.usecase.GetTripsSummaryUseCase
 import com.example.domain.usecase.GetTripsWithExpensesAndVehicleUseCase
-import com.example.domain.usecase.GetTripsWithExpensesUseCase
 import com.example.domain.usecase.GetVehicleByIdUseCase
 import com.example.domain.usecase.GetVehiclesUseCase
 import com.example.domain.usecase.UpdateStatusTripUseCase
@@ -61,13 +61,6 @@ object UseCaseModule {
         tripRepository: TripRepository
     ): CreateTripUseCase {
         return CreateTripUseCase(tripRepository)
-    }
-
-    @Provides
-    fun provideGetTripsWithExpensesUseCase(
-        tripRepository: TripRepository
-    ): GetTripsWithExpensesUseCase {
-        return GetTripsWithExpensesUseCase(tripRepository)
     }
 
     @Provides
@@ -125,5 +118,12 @@ object UseCaseModule {
         tripRepository: TripRepository
     ): GetTripsWithExpensesAndVehicleUseCase {
         return GetTripsWithExpensesAndVehicleUseCase(tripRepository)
+    }
+
+    @Provides
+    fun provideGetTripWithExpensesAndVehicleByIdUseCase(
+        tripRepository: TripRepository
+    ): GetTripWithExpensesAndVehicleByIdUseCase {
+        return GetTripWithExpensesAndVehicleByIdUseCase(tripRepository)
     }
 }

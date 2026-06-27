@@ -38,15 +38,15 @@ class TripRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getTripsWithExpenses(): Flow<List<TripWithExpenses>> = tripDao.getTripsWithExpenses().map {
-        it.map { tripWithExpenses ->
-            tripWithExpenses.toTripWithExpenses()
-        }
-    }
-
     override fun getTripWithExpensesById(id: Long): Flow<TripWithExpenses> {
         return tripDao.getTripWithExpensesById(id).map {
             it.toTripWithExpenses()
+        }
+    }
+
+    override fun getTripWithExpensesAndVehicleById(id: Long): Flow<TripWithExpensesAndVehicle> {
+        return tripDao.getTripWithExpensesAndVehicleById(id).map {
+            it.toTripWithExpensesAndVehicle()
         }
     }
 

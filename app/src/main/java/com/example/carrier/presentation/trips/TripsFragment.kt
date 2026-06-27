@@ -18,11 +18,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FlightsFragment : BaseFragment<FragmentFlightsBinding>(
+class TripsFragment : BaseFragment<FragmentFlightsBinding>(
     FragmentFlightsBinding::inflate
 ) {
 
-    private val viewModel: FlightsViewModel by viewModels()
+    private val viewModel: TripsViewModel by viewModels()
     private val adapter by lazy {
         TripsAdapter { trip ->
             val bundle = Bundle().apply {
@@ -39,11 +39,9 @@ class FlightsFragment : BaseFragment<FragmentFlightsBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.fabNewTrip.setOnClickListener {
-            findNavController().navigate(R.id.action_flightsFragment_to_createTripFragment)
-        }
         setupRecycler()
         observeState()
+        setClickListeners()
     }
 
     private fun observeState() {
@@ -53,6 +51,12 @@ class FlightsFragment : BaseFragment<FragmentFlightsBinding>(
                     setUi(trips)
                 }
             }
+        }
+    }
+
+    private fun setClickListeners() {
+        binding.fabNewTrip.setOnClickListener {
+            findNavController().navigate(R.id.action_flightsFragment_to_createTripFragment)
         }
     }
 

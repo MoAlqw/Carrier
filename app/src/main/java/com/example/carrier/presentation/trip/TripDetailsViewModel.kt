@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.carrier.common.TripItemUi
 import com.example.carrier.common.toTripItemUi
-import com.example.domain.usecase.GetTripsWithExpensesAndVehicleUseCase
+import com.example.domain.usecase.GetTripWithExpensesAndVehicleByIdUseCase
 import com.example.domain.usecase.UpdateStatusTripUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TripDetailsViewModel @Inject constructor(
-    private val getTripsWithExpensesAndVehicleUseCase: GetTripsWithExpensesAndVehicleUseCase,
+    private val getTripWithExpensesAndVehicleByIdUseCase: GetTripWithExpensesAndVehicleByIdUseCase,
     private val updateStatusTripUseCase: UpdateStatusTripUseCase
 ) : ViewModel() {
 
@@ -29,12 +29,8 @@ class TripDetailsViewModel @Inject constructor(
         tripId
             .filterNotNull()
             .flatMapLatest { id ->
-                getTripsWithExpensesAndVehicleUseCase()
-                    .map {
-                        it.first { tripWithExpensesAndVehicle ->
-                            tripWithExpensesAndVehicle.trip.id == id
-                        }.toTripItemUi()
-                    }
+                getTripWithExpensesAndVehicleByIdUseCase(id)
+                    .map { it.toTripItemUi() }
             }
             .stateIn(
                 scope = viewModelScope,

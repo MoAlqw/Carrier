@@ -48,44 +48,15 @@ class TripDetailsFragment : BaseFragment<FragmentTripBinding>(
     }
 
     private fun setUi(trip: TripItemUi) {
-        binding.tvRoute.text = trip.route
-        binding.tvDate.text = DateFormatter.format(trip.date.toEpochMilli())
-        binding.tvClient.text = trip.client
-        binding.tvVehicle.text = getString(
-            R.string.vehicle_plate_string,
-                trip.vehicle.brand,
-                trip.vehicle.model,
-                trip.vehicle.plate
-            )
-        binding.tvKm.text = getString(R.string.total_mileage, trip.km)
-        binding.tvRevenue.text = getString(R.string.full_price, trip.amount)
-        binding.tvExpensesTotal.text = getString(R.string.full_cost, trip.totalExpenses)
-        binding.tvGrossProfit.text = getString(R.string.full_price, trip.grossProfit)
-        binding.tvTax.text = getString(R.string.full_cost, trip.tax)
-        binding.tvNetProfit.text = getString(R.string.full_price, trip.netProfit)
-        binding.tvProfitability.text = getString(R.string.full_profitability, trip.profitability)
-        binding.tvExpensesCount.text = getString(R.string.count_of_positions, trip.expenses.size)
+        setBaseInfoUi(trip)
+        setClickListeners(trip)
+        setWithTripStatusUi(trip)
+    }
 
-        binding.btnOpenExpenses.setOnClickListener {
-            val bundle = Bundle().apply {
-                putLong(NavKeys.TRIP_ID, trip.id)
-            }
-            findNavController().navigate(
-                R.id.action_tripDetailsFragment_to_tripExpensesFragment,
-                bundle
-            )
-        }
-
-        if (trip.status == TripStatus.IN_PROGRESS) {
-            binding.btnFinishTrip.visibility = View.VISIBLE
-            binding.btnFinishTrip.setOnClickListener {
-                viewModel.updateTripStatus()
-            }
-        } else {
-            binding.btnFinishTrip.visibility = View.GONE
-        }
+    private fun setWithTripStatusUi(trip: TripItemUi) {
         when (trip.status) {
             TripStatus.IN_PROGRESS -> {
+                binding.btnFinishTrip.visibility = View.VISIBLE
                 binding.tvStatusBadge.text = getString(R.string.on_the_way)
                 binding.tvStatusBadge.setBackgroundResource(R.drawable.bg_plate_light_green)
                 binding.tvStatusBadge.setTextColor(
@@ -99,6 +70,7 @@ class TripDetailsFragment : BaseFragment<FragmentTripBinding>(
                 )
             }
             TripStatus.CLOSED -> {
+                binding.btnFinishTrip.visibility = View.GONE
                 binding.tvStatusBadge.text = getString(R.string.close)
                 binding.tvStatusBadge.setBackgroundResource(R.drawable.bg_plate_light_grey)
                 binding.tvStatusBadge.setTextColor(
@@ -112,5 +84,40 @@ class TripDetailsFragment : BaseFragment<FragmentTripBinding>(
                 )
             }
         }
+    }
+
+    private fun setClickListeners(trip: TripItemUi) {
+        binding.btnOpenExpenses.setOnClickListener {
+            val bundle = Bundle().apply {
+                putLong(NavKeys.TRIP_ID, trip.id)
+            }
+            findNavController().navigate(
+                R.id.action_tripDetailsFragment_to_tripExpensesFragment,
+                bundle
+            )
+        }
+        binding.btnFinishTrip.setOnClickListener {
+            viewModel.updateTripStatus()
+        }
+    }
+
+    private fun setBaseInfoUi(trip: TripItemUi) {
+        binding.tvRoute.text = trip.route
+        binding.tvDate.text = DateFormatter.format(trip.date.toEpochMilli())
+        binding.tvClient.text = trip.client
+        binding.tvVehicle.text = getString(
+            R.string.vehicle_plate_string,
+            trip.vehicle.brand,
+            trip.vehicle.model,
+            trip.vehicle.plate
+        )
+        binding.tvKm.text = getString(R.string.total_mileage, trip.km)
+        binding.tvRevenue.text = getString(R.string.full_price, trip.amount)
+        binding.tvExpensesTotal.text = getString(R.string.full_cost, trip.totalExpenses)
+        binding.tvGrossProfit.text = getString(R.string.full_price, trip.grossProfit)
+        binding.tvTax.text = getString(R.string.full_cost, trip.tax)
+        binding.tvNetProfit.text = getString(R.string.full_price, trip.netProfit)
+        binding.tvProfitability.text = getString(R.string.full_profitability, trip.profitability)
+        binding.tvExpensesCount.text = getString(R.string.count_of_positions, trip.expenses.size)
     }
 }

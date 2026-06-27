@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class FlightsViewModel @Inject constructor(
+class TripsViewModel @Inject constructor(
     getTripsWithExpensesAndVehicleUseCase: GetTripsWithExpensesAndVehicleUseCase
 ) : ViewModel() {
 

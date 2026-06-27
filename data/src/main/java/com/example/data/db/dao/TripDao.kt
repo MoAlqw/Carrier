@@ -32,6 +32,10 @@ interface TripDao {
 
     @Transaction
     @Query("SELECT * FROM trips WHERE id = :id")
+    fun getTripWithExpensesAndVehicleById(id: Long): Flow<TripWithExpensesAndVehicleEntity>
+
+    @Transaction
+    @Query("SELECT * FROM trips WHERE id = :id")
     fun getTripWithExpensesById(id: Long): Flow<TripWithExpensesEntity>
 
     @Transaction

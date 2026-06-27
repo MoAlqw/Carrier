@@ -10,7 +10,7 @@ interface TripRepository {
     suspend fun createTrip(trip: Trip)
     suspend fun updateTrip(trip: Trip)
     fun getTripsWithExpensesAndVehicle(): Flow<List<TripWithExpensesAndVehicle>>
-    fun getTripsWithExpenses(): Flow<List<TripWithExpenses>>
+    fun getTripWithExpensesAndVehicleById(id: Long): Flow<TripWithExpensesAndVehicle>
     fun getTripWithExpensesById(id: Long): Flow<TripWithExpenses>
     fun getClosedTripsWithExpenses(): Flow<List<TripWithExpenses>>
 }
