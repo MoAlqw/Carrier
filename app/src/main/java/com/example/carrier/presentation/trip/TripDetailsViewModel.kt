@@ -6,6 +6,7 @@ import com.example.carrier.common.toTripItemUi
 import com.example.domain.usecase.GetTripWithExpensesAndVehicleByIdUseCase
 import com.example.domain.usecase.UpdateStatusTripUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +25,8 @@ class TripDetailsViewModel @Inject constructor(
 
     private val tripId = MutableStateFlow<Long?>(null)
 
-    val trip: StateFlow<TripUiState?> =
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val trip: StateFlow<TripUiState> =
         tripId
             .filterNotNull()
             .flatMapLatest { id ->

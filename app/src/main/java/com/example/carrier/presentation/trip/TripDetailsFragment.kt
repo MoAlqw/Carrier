@@ -41,7 +41,7 @@ class TripDetailsFragment : BaseFragment<FragmentTripBinding>(
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.trip.collect { trip ->
-                    trip?.let { setUi(it) }
+                    setUi(trip)
                 }
             }
         }
