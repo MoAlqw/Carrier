@@ -20,7 +20,7 @@ class AddExpenseDialogViewModel @Inject constructor(
     private val expenseValidator: ExpenseValidator
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CreateExpanseForm())
+    private val _state = MutableStateFlow(CreateExpenseForm())
 
     private val _errors = MutableStateFlow<Set<ExpenseValidationError>>(emptySet())
     val errors = _errors.asStateFlow()
@@ -34,7 +34,7 @@ class AddExpenseDialogViewModel @Inject constructor(
         tripId = id
     }
 
-    fun updateForm(update: CreateExpanseForm.() -> CreateExpanseForm) {
+    fun updateForm(update: CreateExpenseForm.() -> CreateExpenseForm) {
         _state.update {
             it.update()
         }

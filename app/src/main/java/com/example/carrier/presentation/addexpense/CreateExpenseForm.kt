@@ -4,14 +4,14 @@ import com.example.carrier.utils.DateFormatter
 import com.example.domain.model.Expense
 import com.example.domain.model.ExpenseCategory
 
-data class CreateExpanseForm(
+data class CreateExpenseForm(
     var category: ExpenseCategory? = null,
     var name: String = "",
     var sum: String = "",
     var date: String = ""
 )
 
-fun CreateExpanseForm.toExpense(tripId: Long): Expense {
+fun CreateExpenseForm.toExpense(tripId: Long): Expense {
     return Expense(
         id = 0,
         tripId = tripId,

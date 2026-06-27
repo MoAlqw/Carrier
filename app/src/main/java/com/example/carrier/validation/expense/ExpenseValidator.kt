@@ -1,11 +1,11 @@
 package com.example.carrier.validation.expense
 
-import com.example.carrier.presentation.addexpense.CreateExpanseForm
+import com.example.carrier.presentation.addexpense.CreateExpenseForm
 import javax.inject.Inject
 
 class ExpenseValidator @Inject constructor() {
 
-    fun validate(form: CreateExpanseForm): Set<ExpenseValidationError> {
+    fun validate(form: CreateExpenseForm): Set<ExpenseValidationError> {
         val errors = mutableSetOf<ExpenseValidationError>()
 
         if (form.name.isBlank()) {
@@ -25,7 +25,7 @@ class ExpenseValidator @Inject constructor() {
                 errors += ExpenseValidationError.SumInvalid
         }
 
-        if (form.date == null) {
+        if (form.date.isBlank()) {
             errors.add(ExpenseValidationError.DateEmpty)
         }
 

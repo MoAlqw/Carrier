@@ -32,6 +32,7 @@ class AddExpenseDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = FragmentAddExpenseDialogBinding.inflate(layoutInflater)
+
         viewModel.initTripId(requireArguments().getLong(NavKeys.TRIP_ID))
 
         setupListeners()
@@ -43,6 +44,11 @@ class AddExpenseDialogFragment : DialogFragment() {
     }
 
     private fun observeState() {
+        observeExpenseCreated()
+        observeErrors()
+    }
+
+    private fun observeExpenseCreated() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.expenseCreated.collect {
@@ -50,6 +56,9 @@ class AddExpenseDialogFragment : DialogFragment() {
                 }
             }
         }
+    }
+
+    private fun observeErrors() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.errors.collect {
