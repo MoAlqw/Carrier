@@ -1,6 +1,6 @@
 package com.example.carrier.validation.expense
 
-import com.example.carrier.model.CreateExpanseForm
+import com.example.carrier.presentation.addexpense.CreateExpanseForm
 import javax.inject.Inject
 
 class ExpenseValidator @Inject constructor() {

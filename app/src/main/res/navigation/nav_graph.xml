@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/flightsFragment"
-        android:name="com.example.carrier.fragments.flights.trips.FlightsFragment"
+        android:name="com.example.carrier.presentation.trips.FlightsFragment"
         android:label="@string/flights" >
         <action
             android:id="@+id/action_flightsFragment_to_createTripFragment"
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/archiveFragment"
-        android:name="com.example.carrier.fragments.archive.ArchiveFragment"
+        android:name="com.example.carrier.presentation.archive.ArchiveFragment"
         android:label="@string/archive" >
         <action
             android:id="@+id/action_archiveFragment_to_tripDetailsFragment"
@@ -30,27 +30,27 @@
 
     <fragment
         android:id="@+id/analyticsFragment"
-        android:name="com.example.carrier.fragments.analytics.AnalyticsFragment"
+        android:name="com.example.carrier.presentation.analytics.AnalyticsFragment"
         android:label="@string/analytics" />
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.carrier.fragments.profile.ProfileFragment"
+        android:name="com.example.carrier.presentation.profile.ProfileFragment"
         android:label="@string/profile" />
 
     <dialog
         android:id="@+id/addVehicleDialogFragment"
-        android:name="com.example.carrier.fragments.profile.addvehicle.AddVehicleDialogFragment"
+        android:name="com.example.carrier.presentation.addvehicle.AddVehicleDialogFragment"
         android:label="@string/new_vehicle"/>
 
     <fragment
         android:id="@+id/createTripFragment"
-        android:name="com.example.carrier.fragments.flights.trips.createtrip.CreateTripFragment"
+        android:name="com.example.carrier.presentation.createtrip.CreateTripFragment"
         android:label="@string/create_trip" />
 
     <fragment
         android:id="@+id/tripDetailsFragment"
-        android:name="com.example.carrier.fragments.flights.trip.TripDetailsFragment"
+        android:name="com.example.carrier.presentation.trip.TripDetailsFragment"
         android:label="Рейс #{tripId}">
         <argument
             android:name="tripId"
@@ -66,7 +66,7 @@
 
     <fragment
         android:id="@+id/tripExpensesFragment"
-        android:name="com.example.carrier.fragments.flights.tripexpenses.FragmentTripExpenses"
+        android:name="com.example.carrier.presentation.tripexpenses.FragmentTripExpenses"
         android:label="Расходы рейса #{tripId}">
         <argument
             android:name="tripId"
@@ -82,7 +82,7 @@
 
     <dialog
         android:id="@+id/addExpenseDialogFragment"
-        android:name="com.example.carrier.fragments.flights.tripexpenses.addexpense.AddExpenseDialogFragment">
+        android:name="com.example.carrier.presentation.addexpense.AddExpenseDialogFragment">
         <argument
             android:name="tripId"
             app:argType="long" />

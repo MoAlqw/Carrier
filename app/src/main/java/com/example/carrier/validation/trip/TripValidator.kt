@@ -1,6 +1,6 @@
 package com.example.carrier.validation.trip
 
-import com.example.carrier.model.CreateTripForm
+import com.example.carrier.presentation.createtrip.CreateTripForm
 import javax.inject.Inject
 
 class TripValidator @Inject constructor() {

@@ -1,6 +1,6 @@
 package com.example.carrier.validation.vehicle
 
-import com.example.carrier.model.CreateVehicleFormState
+import com.example.carrier.presentation.addvehicle.CreateVehicleFormState
 import javax.inject.Inject
 
 class VehicleValidator @Inject constructor() {

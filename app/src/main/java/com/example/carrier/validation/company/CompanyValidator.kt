@@ -1,6 +1,6 @@
 package com.example.carrier.validation.company
 
-import com.example.carrier.model.CreateCompanyForm
+import com.example.carrier.presentation.profile.CreateCompanyForm
 import javax.inject.Inject
 
 class CompanyValidator @Inject constructor() {
