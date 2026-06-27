@@ -40,7 +40,7 @@ object DataModule {
     }
 
     @Provides
-    fun provideInspectionDao(
+    fun provideCompanyDao(
         database: AppDatabase
     ): CompanyDao {
         return database.companyDao()

@@ -30,7 +30,7 @@ data class CreateTripForm(
         get() = fuelConsumption.toDoubleOrNull() ?: 0.0
 
     private val grossProfit: Long
-        get() = TripFinanceCalculator.grossProfit(amountValue, estimatedFuelCost)
+        get() = TripFinanceCalculator.grossProfit(amountValue, fullEstimatedFuelCost)
 
     val estimatedFuelCost: Long
         get() = TripFinanceCalculator.fuelCostOnHundredKm(fuelConsumptionValue, fuelPriceValue)
