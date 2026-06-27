@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.carrier.common.TripItemUi
 import com.example.carrier.common.toTripItemUi
-import com.example.domain.usecase.GetTripsWithExpensesAndVehicleUseCase
+import com.example.domain.usecase.GetClosedTripsWithExpensesAndVehicleUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,11 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArchiveViewModel @Inject constructor(
-    getTripsWithExpensesAndVehicleUseCase: GetTripsWithExpensesAndVehicleUseCase
+    getClosedTripsWithExpensesAndVehicleUseCase: GetClosedTripsWithExpensesAndVehicleUseCase
 ) : ViewModel() {
 
     val uiState: StateFlow<List<TripItemUi>> =
-        getTripsWithExpensesAndVehicleUseCase()
+        getClosedTripsWithExpensesAndVehicleUseCase()
             .map {
                 it.map { tripWithExpensesAndVehicle ->
                     tripWithExpensesAndVehicle.toTripItemUi()

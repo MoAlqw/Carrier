@@ -57,4 +57,12 @@ class TripRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override fun getClosedTripsWithExpensesAndVehicle(): Flow<List<TripWithExpensesAndVehicle>> {
+        return tripDao.getClosedTripsWithVehicleAndExpenses().map {
+            it.map { tripWithExpensesAndVehicle ->
+                tripWithExpensesAndVehicle.toTripWithExpensesAndVehicle()
+            }
+        }
+    }
 }

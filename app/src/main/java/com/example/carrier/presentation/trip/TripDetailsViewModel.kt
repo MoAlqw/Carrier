@@ -2,7 +2,6 @@ package com.example.carrier.presentation.trip
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.carrier.common.TripItemUi
 import com.example.carrier.common.toTripItemUi
 import com.example.domain.usecase.GetTripWithExpensesAndVehicleByIdUseCase
 import com.example.domain.usecase.UpdateStatusTripUseCase
@@ -25,17 +24,21 @@ class TripDetailsViewModel @Inject constructor(
 
     private val tripId = MutableStateFlow<Long?>(null)
 
-    val trip: StateFlow<TripItemUi?> =
+    val trip: StateFlow<TripUiState?> =
         tripId
             .filterNotNull()
             .flatMapLatest { id ->
                 getTripWithExpensesAndVehicleByIdUseCase(id)
-                    .map { it.toTripItemUi() }
+                    .map {
+                        TripUiState.Content(
+                            it.toTripItemUi()
+                        )
+                    }
             }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = null
+                initialValue = TripUiState.Loading
             )
 
     fun loadTrip(id: Long) {
@@ -43,9 +46,9 @@ class TripDetailsViewModel @Inject constructor(
     }
 
     fun updateTripStatus() {
-        val trip = trip.value ?: return
+        val trip = trip.value as? TripUiState.Content ?: return
         viewModelScope.launch {
-            updateStatusTripUseCase(trip.id)
+            updateStatusTripUseCase(trip.trip.id)
         }
     }
 }

@@ -91,16 +91,16 @@ class CreateTripFragment: BaseFragment<FragmentTripFormBinding>(
     }
 
     private fun setUi(state: CreateTripForm) {
-        val estimatedFuelCost = state.estimatedFuelCost
-
-        binding.etDate.setText(state.date)
+        if (state.date.isNotBlank()) {
+            binding.etDate.setText(DateFormatter.format(state.date.toLong()))
+        }
         binding.tvEstimatedFuelCost.text = getString(
             R.string.full_price,
-            estimatedFuelCost
+            state.estimatedFuelCost
         )
         binding.tvFuelOfUser.text = getString(
             R.string.full_cost,
-            estimatedFuelCost
+            state.fullEstimatedFuelCost
         )
         binding.tvRevenueOfUser.text = getString(
             R.string.full_price,
@@ -206,7 +206,7 @@ class CreateTripFragment: BaseFragment<FragmentTripFormBinding>(
 
         picker.addOnPositiveButtonClickListener { millis ->
             viewModel.updateForm {
-                copy(date = DateFormatter.format(millis))
+                copy(date = millis.toString())
             }
         }
     }

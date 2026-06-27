@@ -7,7 +7,7 @@ class TripValidator @Inject constructor() {
 
     fun validate(trip: CreateTripForm): Set<TripValidationError> {
         val errors = mutableSetOf<TripValidationError>()
-        if (trip.date == null) {
+        if (trip.date.isBlank()) {
             errors.add(TripValidationError.DateEmpty)
         }
 
@@ -15,7 +15,7 @@ class TripValidator @Inject constructor() {
             errors.add(TripValidationError.RouteEmpty)
         }
 
-        if (trip.vehicleId == null) {
+        if (trip.vehicleId.isBlank()) {
             errors.add(TripValidationError.VehicleEmpty)
         }
 

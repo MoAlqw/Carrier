@@ -47,10 +47,36 @@ class TripDetailsFragment : BaseFragment<FragmentTripBinding>(
         }
     }
 
-    private fun setUi(trip: TripItemUi) {
+    private fun setUi(trip: TripUiState) {
+        when (trip) {
+            is TripUiState.Loading -> {
+                setLoadingUi()
+            }
+            is TripUiState.Content -> {
+                setContentUi(trip.trip)
+            }
+        }
+    }
+
+    private fun setLoadingUi() {
+        showLoadingUi(true)
+    }
+
+    private fun setContentUi(trip: TripItemUi) {
+        showLoadingUi(false)
         setBaseInfoUi(trip)
         setClickListeners(trip)
         setWithTripStatusUi(trip)
+    }
+
+    private fun showLoadingUi(show: Boolean) {
+        if (show) {
+            binding.pbLoading.visibility = View.VISIBLE
+            binding.layoutMainContent.visibility = View.GONE
+        } else {
+            binding.pbLoading.visibility = View.GONE
+            binding.layoutMainContent.visibility = View.VISIBLE
+        }
     }
 
     private fun setWithTripStatusUi(trip: TripItemUi) {

@@ -46,4 +46,13 @@ interface TripDao {
         ORDER BY date DESC
     """)
     fun getClosedTripsWithExpenses(): Flow<List<TripWithExpensesEntity>>
+
+    @Transaction
+    @Query("""
+        SELECT *
+        FROM trips
+        WHERE status = "CLOSED"
+        ORDER BY date DESC
+    """)
+    fun getClosedTripsWithVehicleAndExpenses(): Flow<List<TripWithExpensesAndVehicleEntity>>
 }

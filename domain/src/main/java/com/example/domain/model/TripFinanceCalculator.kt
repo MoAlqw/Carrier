@@ -38,4 +38,11 @@ object TripFinanceCalculator {
     ): Long {
         return (km * fuelConsumption / 100 * fuelPrice).roundToLong()
     }
+
+    fun fuelCostOnHundredKm(
+        fuelConsumption: Double,
+        fuelPrice: Long
+    ): Long {
+        return (fuelConsumption * fuelPrice).roundToLong()
+    }
 }

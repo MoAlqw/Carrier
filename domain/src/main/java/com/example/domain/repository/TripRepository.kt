@@ -12,5 +12,6 @@ interface TripRepository {
     fun getTripsWithExpensesAndVehicle(): Flow<List<TripWithExpensesAndVehicle>>
     fun getTripWithExpensesAndVehicleById(id: Long): Flow<TripWithExpensesAndVehicle>
     fun getTripWithExpensesById(id: Long): Flow<TripWithExpenses>
+    fun getClosedTripsWithExpensesAndVehicle(): Flow<List<TripWithExpensesAndVehicle>>
     fun getClosedTripsWithExpenses(): Flow<List<TripWithExpenses>>
 }

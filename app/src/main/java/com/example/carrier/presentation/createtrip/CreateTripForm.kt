@@ -8,9 +8,9 @@ import java.time.Instant
 import kotlin.math.roundToLong
 
 data class CreateTripForm(
-    val date: String? = "",
+    val date: String = "",
     val route: String = "",
-    val vehicleId: Long? = null,
+    val vehicleId: String = "",
     val client: String = "",
     val amount: String = "",
     val km: String = "",
@@ -33,6 +33,9 @@ data class CreateTripForm(
         get() = TripFinanceCalculator.grossProfit(amountValue, estimatedFuelCost)
 
     val estimatedFuelCost: Long
+        get() = TripFinanceCalculator.fuelCostOnHundredKm(fuelConsumptionValue, fuelPriceValue)
+
+    val fullEstimatedFuelCost: Long
         get() = TripFinanceCalculator.fuelCost(kmValue, fuelConsumptionValue, fuelPriceValue)
 
     val taxCost: Long
@@ -48,9 +51,9 @@ data class CreateTripForm(
 fun CreateTripForm.toTrip(): Trip {
     return Trip(
         id = 0,
-        date = DateFormatter.toInstant(date!!.toLong()),
+        date = DateFormatter.toInstant(date.toLong()),
         route = route,
-        vehicleId = vehicleId!!,
+        vehicleId = vehicleId.toLong(),
         client = client,
         amount = amountValue,
         km = kmValue.roundToLong(),

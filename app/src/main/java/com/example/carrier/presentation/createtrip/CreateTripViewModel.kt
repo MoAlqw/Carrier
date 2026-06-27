@@ -51,7 +51,7 @@ class CreateTripViewModel @Inject constructor(
 
         updateForm {
             copy(
-                vehicleId = vehicle.id,
+                vehicleId = vehicle.id.toString(),
                 fuelConsumption = vehicle.fuelConsumption.toString()
             )
         }
